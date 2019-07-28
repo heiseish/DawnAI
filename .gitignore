@@ -2,3 +2,10 @@ dependencies/
 *.pth
 *.json
 *.txt
+CMakeCache.txt
+CMakeScripts
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
