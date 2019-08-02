@@ -1,5 +1,5 @@
 // Inspiration: https://github.com/Wizaron/pytorch-cpp-inference
-#include "lib/ImageInference.hpp"
+#include "ImageInference.hpp"
 
 #include <iostream>
 #include <vector>
@@ -19,8 +19,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "utils/OpenCvUtils.hpp"
-
+#include "src/utils/OpenCvUtils.hpp"
+#include "src/utils/PytorchUtils.hpp"
 #include <websocketpp/base64/base64.hpp>
 
 #include <spdlog/spdlog.h>
@@ -42,7 +42,7 @@ dawn::ImageInference::ImageInference(const char* labelPath, const char* modelPat
 		}
 		labelsfile.close();
 	}
-	model = readModel(modelPath);
+	model = dawn::readModel(modelPath);
 	if (model.get() == nullptr) {
 		imageInferenceLogger->warn("Image classifier not loaded");
 	} else {
@@ -113,7 +113,7 @@ std::vector<float> dawn::ImageInference::__softmax(std::vector<float> unnorm_pro
 std::vector<float> dawn::ImageInference::__get_outputs(torch::Tensor output) {
 	int ndim = output.ndimension();
 	assert(ndim == 2);
-	torch::IntList sizes = output.sizes();
+	auto sizes = output.sizes();
 	int n_samples = sizes[0];
 	int n_classes = sizes[1];
 	assert(n_samples == 1);
@@ -122,11 +122,6 @@ std::vector<float> dawn::ImageInference::__get_outputs(torch::Tensor output) {
   	// Softmax
 	std::vector<float> probs = __softmax(unnorm_probs);
 	return probs;
-}
-
-// 1. Read model
-std::shared_ptr<torch::jit::script::Module> dawn::ImageInference::readModel(std::string model_path) {
-	return torch::jit::load(model_path);
 }
 
 // 2. Forward

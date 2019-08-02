@@ -11,8 +11,9 @@
 #include <fstream>
 #include <string>
 
-#include "lib/KeyWordDetector.hpp"
-#include "utils/StringUtils.hpp"
+#include "KeyWordDetector.hpp"
+#include "src/utils/StringUtils.hpp"
+#include "src/utils/PytorchUtils.hpp"
 
 #include <json.hpp>
 

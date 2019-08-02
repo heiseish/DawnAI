@@ -15,9 +15,4 @@ target_link_libraries (Test
 		${OpenCV_LIBS}
 )
 
-set_property(
-	TARGET 
-		Test 
-	PROPERTY 
-		CXX_STANDARD 17
-)
+# set_property(TARGET Test PROPERTY CXX_STANDARD 17)

@@ -1,24 +1,36 @@
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.10)
 project (Dawn)
 
-option(BUILD_LOCAL "Build local instead of docker" OFF) #OFF by default
-message("BUILD LOCAL is ${BUILD_LOCAL}")
-if(BUILD_LOCAL)
-    find_package(OpenCV 4.1.0 EXACT REQUIRED PATHS /usr/local/Cellar/opencv/lib/cmake/opencv4)
-    set(Boost_INCLUDE_DIRS /usr/local/Cellar/boost/1.69.0_2/include)
-    set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/dependencies/libtorch_macosx;${CMAKE_PREFIX_PATH}")
-else()
-    find_package(OpenCV COMPONENTS core highgui imgproc imgcodecs REQUIRED)
-    set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/dependencies/libtorch;${CMAKE_PREFIX_PATH}")
-endif(BUILD_LOCAL)
+add_compile_options(-std=c++11)
+
+list(APPEND CMAKE_PREFIX_PATH
+"${CMAKE_SOURCE_DIR}/dep/protobuf"  
+"${CMAKE_SOURCE_DIR}/dep/grpc"
+"${CMAKE_SOURCE_DIR}/dep/libtorch"
+"${CMAKE_SOURCE_DIR}/dep/opencv4"
+)
+
+# Cmake find modules
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
+find_package(Protobuf REQUIRED)
+find_package(GRPC REQUIRED)
 find_package(Torch REQUIRED)
 find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED) 
+find_package(OpenCV COMPONENTS core highgui imgproc imgcodecs REQUIRED)
+
+
+set(PROTOS
+    ${CMAKE_CURRENT_SOURCE_DIR}/protos/text_generator_service.proto
+)
+
+set(PROTO_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/proto-src)
+file(MAKE_DIRECTORY ${PROTO_SRC_DIR})
+include_directories(${PROTO_SRC_DIR})
+
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_SRC_DIR} ${PROTOS})
+grpc_generate_cpp(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${PROTOS})
 
 
 include_directories(
@@ -26,11 +38,32 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src 
     ${Boost_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
-    ${OPENMP_LIBRARIES}
-    ${OPENMP_INCLUDES}
+	${PROTO_SRC_DIR}
 )
 
-add_subdirectory (src) 
-add_subdirectory (test)
-enable_testing ()
-add_test (NAME MyTest COMMAND Test)
+file(GLOB_RECURSE local_binary
+    "src/*.cpp"
+    "src/*.hpp"
+)
+
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_SRC_DIR} ${PROTOS})
+grpc_generate_cpp(GRPC_SRCS GRPC_HDRS ${PROTO_SRC_DIR} ${PROTOS})
+
+add_executable(Dawn src/server.cpp 
+	${local_binary} 
+	${PROTO_SRCS}
+    ${GRPC_SRCS}
+)
+
+target_link_libraries(Dawn  
+		${TORCH_LIBRARIES}
+        ${Boost_LIBRARIES}
+		${OpenCV_LIBS}
+		gRPC::grpc++_reflection
+		protobuf::libprotobuf
+)
+
+# add_subdirectory (src) 
+# add_subdirectory (test)
+# enable_testing ()
+# add_test (NAME MyTest COMMAND Test)

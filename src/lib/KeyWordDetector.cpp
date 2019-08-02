@@ -1,4 +1,4 @@
-#include "lib/KeyWordDetector.hpp"
+#include "KeyWordDetector.hpp"
 
 #include <vector>
 #include <string>

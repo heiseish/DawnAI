@@ -1,0 +1,7 @@
+FROM ubuntu:latest
+
+WORKDIR /home
+COPY Dawn Dawn
+COPY src src
+COPY dep dep
+CMD "./Dawn"

@@ -1,0 +1,11 @@
+prefix=/home/heiseish/Projects/Dawn/dep/torch
+exec_prefix=/home/heiseish/Projects/Dawn/dep/torch
+libdir=/home/heiseish/Projects/Dawn/dep/torch/lib
+includedir=/home/heiseish/Projects/Dawn/dep/torch/include
+
+Name: Protocol Buffers
+Description: Google's Data Interchange Format
+Version: 3.6.1
+Libs: -L${libdir} -lprotobuf -lpthread
+Cflags: -I${includedir} -lpthread
+Conflicts: protobuf-lite

@@ -1,4 +1,4 @@
-#include "lib/TextGenerator.hpp"
+#include "TextGenerator.hpp"
 
 #include <torch/script.h>
 #include <torch/torch.h>
@@ -8,9 +8,9 @@
 #include <fstream>
 #include <string>
 
-#include "lib/KeyWordDetector.hpp"
-#include "utils/StringUtils.hpp"
-
+#include "KeyWordDetector.hpp"
+#include "src/utils/StringUtils.hpp"
+#include "src/utils/PytorchUtils.hpp"
 #include <json.hpp>
 
 
@@ -22,7 +22,7 @@ dawn::TextGenerator::TextGenerator(const char* path, const char* profanityCollec
 	textGeneratorInputLogger = spdlog::stdout_color_mt("Input text");
 	textGeneratorResponseLogger = spdlog::stdout_color_mt("Response Text");
 
-	module = torch::jit::load(path);
+	module = dawn::readModel(path);
 	if (module.get() == nullptr) {
 		textGeneratorInputLogger->warn("Path to model is not valid");
 	} else textGeneratorInputLogger->info("Text classifier loaded successfully");

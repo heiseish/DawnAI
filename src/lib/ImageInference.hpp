@@ -21,7 +21,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "utils/OpenCvUtils.hpp"
+#include "src/utils/OpenCvUtils.hpp"
+#include "src/utils/PytorchUtils.hpp"
 
 #include <websocketpp/base64/base64.hpp>
 

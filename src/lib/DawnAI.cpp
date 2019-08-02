@@ -1,58 +1,44 @@
-#include "lib/DawnAI.hpp"
+#include "DawnAI.hpp"
 
 #include <iostream>
 #include <string>
 #include <memory>
 
-#include <crow.hpp>
+#include <grpc++/grpc++.h>
+
+#include "protos/text_generator_service.grpc.pb.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-#include "lib/TextGenerator.hpp"
-#include "lib/ImageInference.hpp"
+#include "TextGenerator.hpp"
+#include "ImageInference.hpp"
 
-dawn::DawnAI::DawnAI() {
-	spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
-	mainLogger = spdlog::stdout_color_mt("Main Logger");
-	
-	textGenerator = std::make_shared<dawn::TextGenerator>();
-	imageInferencer = std::make_shared<dawn::ImageInference>();
+namespace dawn{
+	DawnAI::DawnAI() {
+		spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
+		mainLogger = spdlog::stdout_color_mt("Main Logger");
+		
+		textGenerator = std::make_shared<dawn::TextGenerator>();
+		imageInferencer = std::make_shared<dawn::ImageInference>();
+	}
 
-	mainLogger->info("Server starting up!");
-	
+	void DawnAI::listen(std::string PORT) {
+		std::string server_address("0.0.0.0:" + PORT);
+		ServerBuilder builder;
+		// Listen on the given address without any authentication mechanism.
+		builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+		// Register "service" as the instance through which we'll communicate with
+		// clients. In this case it corresponds to an *synchronous* service.
+		builder.RegisterService(&service);
+		// Finally assemble the server.
+		std::unique_ptr<Server> server(builder.BuildAndStart());
+		mainLogger->info("Listening on " + server_address);
 
-	CROW_ROUTE(app, "/converse")
-	.methods("POST"_method)
-	([&](const crow::request& req){
-		auto x = crow::json::load(req.body);
-		if (!x || x["text"])
-			return crow::response(400);
-		std::string input = x["text"].s();
-		auto answer = textGenerator->generateReply(input);
-        crow::json::wvalue resp;
-        resp["answer"] = answer;
-		return crow::response(resp);
-	});
+		// Wait for the server to shutdown. Note that some other thread must be
+		// responsible for shutting down the server for this call to ever return.
+		server->Wait();
+	}
 
-
-	CROW_ROUTE(app, "/image-recognizer")
-	.methods("POST"_method)
-	([&](const crow::request& req){
-		auto x = crow::json::load(req.body);
-		if (!x || !x["image"])
-			return crow::response(400);
-		std::string input = x["image"].s();
-		auto [answer, prob] = imageInferencer->classifyBase64Image(input);
-		crow::json::wvalue resp;
-		resp["answer"] = answer;
-		resp["prob"] = prob;
-		return crow::response(resp);
-	});
-}
-
-void dawn::DawnAI::listen(int PORT) {
-	app.loglevel(crow::LogLevel::Warning);
-	app.port(PORT).multithreaded().run();  
 }

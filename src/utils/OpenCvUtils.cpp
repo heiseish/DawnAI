@@ -1,4 +1,4 @@
-#include "utils/OpenCvUtils.hpp"
+#include "OpenCvUtils.hpp"
 
 #include <iostream>
 #include <vector>

@@ -1,4 +1,4 @@
-#include "utils/StringUtils.hpp"
+#include "StringUtils.hpp"
 
 #include <regex>
 #include <unordered_map>
@@ -16,13 +16,17 @@ const int dawn::StringUtils::MAX_LENGTH;
 dawn::StringUtils::StringUtils (const std::string& word2indexPath, const std::string& index2wordPath) {
 	std::ifstream ifsw2i(word2indexPath, std::ifstream::binary);
 	auto f = nlohmann::json::parse(ifsw2i);
-	for (auto& [key, value] : f.items()) {
+	for (auto& item : f.items()) {
+		auto& key = item.key();
+		auto& value = item.value();
 		word2index[key] = value;
 	}
 	std::ifstream ifsi2w(index2wordPath, std::ifstream::binary);
 	auto s = nlohmann::json::parse(ifsi2w);
-	for (auto& [key, value] : s.items()) {
-		index2word[stoll(key)] = value;
+	for (auto& item : s.items()) {
+		auto& key = item.key();
+		auto& value = item.value();
+		index2word[std::stoll(key)] = value;
 	}
 }
 
@@ -31,11 +35,11 @@ dawn::StringUtils::StringUtils (const std::string& word2indexPath, const std::st
 */
 std::string dawn::StringUtils::normalizeString(const std::string& input) {
 	std::string result;
-	for(int i = 0; i < input.length(); ++i) {
+	for(int i = 0; i < (int) input.length(); ++i) {
 		char ch = input[i];
 		if (isalpha(ch) || isdigit(ch)) {
 			result.push_back(tolower(ch));
-		} else if (ch == '%' && i < input.length() - 2 && input[i + 1] == '2' && input[i + 2] == '0') {
+		} else if (ch == '%' && i < (int) input.length() - 2 && input[i + 1] == '2' && input[i + 2] == '0') {
 			result.push_back(' ');
 			i += 2;
 		} else if (isspace(ch) || ispunct(ch)) {
@@ -55,7 +59,7 @@ std::vector<int64_t> dawn::StringUtils::indexesFromSentence(const std::string& s
 	std::sregex_token_iterator()
 	);
 	std::vector<int64_t> ans(out.size());
-	for(int i = 0; i < out.size(); ++i) {
+	for(int i = 0; i < (int) out.size(); ++i) {
 		ans[i] = word2index[out[i]];
 	}
 	ans.emplace_back(EOS_token);
