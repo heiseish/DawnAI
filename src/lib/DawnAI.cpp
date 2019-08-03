@@ -25,7 +25,7 @@ namespace dawn{
 	}
 
 	void DawnAI::listen(std::string PORT) {
-		std::string server_address("0.0.0.0:" + PORT);
+		std::string server_address("127.0.0.1:" + PORT);
 		ServerBuilder builder;
 		// Listen on the given address without any authentication mechanism.
 		builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
