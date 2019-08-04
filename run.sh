@@ -1,4 +1,4 @@
 export PATH="$PATH:$HOME/bin"
-bazel build //src:server \
+PORT=8080 MODE=docker bazel run //src:server \
 		--incompatible_depset_is_not_iterable=false \
     	--jobs 8

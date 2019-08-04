@@ -7,9 +7,14 @@ PROTO_IN=protos/*.proto
 
 release:
 	sh scripts/build.sh
-docker:
-	docker build -t heiseish/dawnai:v1.0.0 -f Dockerfile .
+docker-build:
+	sudo docker build -t heiseish/dawnai:v1.0.0 -f Dockerfile .
 
+docker-run:
+	sudo docker run --rm \
+		-m=4g \
+  		-p 8080:8080 \
+  		heiseish/dawnai:v1.0.0
 opencv:
 	sh scripts/install_opencv.sh
 grpc:
@@ -29,5 +34,9 @@ dependency-graph:
 
 bazel:
 	bazel build //src:server \
+		--incompatible_depset_is_not_iterable=false \
+    	--jobs 8
+bazel-run:
+	PORT=8080 MODE=local bazel run //src:server \
 		--incompatible_depset_is_not_iterable=false \
     	--jobs 8

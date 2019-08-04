@@ -32,7 +32,7 @@ namespace dawn {
 		std::shared_ptr<spdlog::logger> textGeneratorResponseLogger;
 	public:
 		TextGenerator(const char* path="src/model/chat.pth", 
-			const char* profanityCollection="src/data/profanity.json");
+			const char* profanityCollection="src/model/profanity.json");
 		std::string generateReply(const std::string& s, const int MAX_LENGTH=dawn::StringUtils::MAX_LENGTH);
 	};
 	

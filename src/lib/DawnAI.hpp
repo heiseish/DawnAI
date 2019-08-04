@@ -9,7 +9,8 @@
 
 #include <grpc++/grpc++.h>
 
-#include "protos/text_generator_service.grpc.pb.h"
+#include "protos/image_recognition_service.grpc.pb.h"
+#include "protos/converse_service.grpc.pb.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -27,24 +28,61 @@ namespace dawn {
 	using grpc::ServerBuilder;
 	using grpc::ServerContext;
 	using grpc::Status;
-	using TextGeneratorGRPC::TextResponseService;
-	using TextGeneratorGRPC::Sentence;
-	using TextGeneratorGRPC::Response;
+	// Converse
+	using ConverseServiceGRPC::ConverseService;
+	using ConverseServiceGRPC::ConversationInput;
+	using ConverseServiceGRPC::ConversationResponse;
+	using ConverseServiceGRPC::ConversationResponse_State;
+	// Image
+	using ImageRecognitionServiceRPC::ImageRecognitionService;
+	using ImageRecognitionServiceRPC::ImageRequest;
+	using ImageRecognitionServiceRPC::ImageResponse;
+	using ImageRecognitionServiceRPC::ImageResponse_State;
 	// Logic and data behind the server's behavior.
-	class TextGeneratorServiceImpl final : public TextResponseService::Service {
-		Status RespondToText(ServerContext* context, const Sentence* request,
-			Response* reply) override {
-			std::string prefix("Hello ");
-			reply->set_reply(prefix + request->greeting());
+	class ConverseServiceImpl final : public ConverseService::Service {
+	private:
+		std::unique_ptr<dawn::TextGenerator> textGenerator;
+	public:
+		ConverseServiceImpl() {
+			textGenerator = std::make_unique<TextGenerator>();
+		}
+		Status RespondToText(ServerContext* context, const ConversationInput* request,
+			ConversationResponse* reply) override {
+			if (!textGenerator) {
+				reply->set_state(ConversationResponse_State::ConversationResponse_State_MODEL_ERR);
+				return Status::OK;
+			}
+			reply->set_state(ConversationResponse_State::ConversationResponse_State_SUCCESS);
+			reply->set_text(textGenerator->generateReply(request->text()));
+			return Status::OK;
+		}
+	};
+
+	class ImageRecognitionServiceImpl final : public ImageRecognitionService::Service {
+	private:
+		std::unique_ptr<dawn::ImageInference> imageInferencer;
+	public:
+		ImageRecognitionServiceImpl() {
+			imageInferencer = std::make_unique<ImageInference>();
+		}
+		Status RecognizeImage(ServerContext* context, const ImageRequest* request,
+			ImageResponse* reply) override {
+			if (!imageInferencer) {
+				reply->set_state(ImageResponse_State::ImageResponse_State_MODEL_ERR);
+				return Status::OK;
+			}
+			reply->set_state(ImageResponse_State::ImageResponse_State_SUCCESS);
+			auto result = imageInferencer->classifyBase64Image(request->image());
+			reply->set_text(std::get<0>(result)); // extract the prediction
 			return Status::OK;
 		}
 	};
 	class DawnAI {
 	private:
-		std::shared_ptr<dawn::TextGenerator> textGenerator;
-		std::shared_ptr<dawn::ImageInference> imageInferencer;
 		std::shared_ptr<spdlog::logger> mainLogger;
-		TextGeneratorServiceImpl service;
+		ConverseServiceImpl converse_service;
+		ImageRecognitionServiceImpl image_recognition_service;
+		std::unique_ptr<Server> server;
 	public:
 		DawnAI();
 		void listen(std::string);

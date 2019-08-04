@@ -4,11 +4,14 @@ cc_library(
     hdrs = ["DawnAI.hpp"],
     visibility = ["//src:__pkg__"],
 	deps = [
-		"//protos:text_generator_service_cc_proto",
+		"//protos:grpc_service_cpp_proto",
 		"//src/lib:ImageInference",
 		"//src/lib:TextGenerator",
 		"@spdlog//:spdlog",
 	],
+	data = [
+        "//src/model:torch_model",
+    ],
 )
 cc_library(
     name = "ImageInference",
@@ -23,6 +26,9 @@ cc_library(
 		"@websocketpp//:websocketpp",
 		"@opencv4//:opencv4",
 	],
+	data = [
+        "//src/model:torch_model",
+    ],
 )
 cc_library(
     name = "KeyWordDetector",
@@ -43,6 +49,9 @@ cc_library(
 		"@spdlog//:spdlog",	
 		"@json//:json",
 	],
+	data = [
+        "//src/model:torch_model",
+    ],
 )
 
 
