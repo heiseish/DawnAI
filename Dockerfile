@@ -12,7 +12,9 @@ COPY WORKSPACE WORKSPACE
 COPY run.sh run.sh
 COPY build.sh build.sh
 COPY .bazelrc .bazelrc
-# RUN /bin/sh build.sh
-RUN pip install mkl mkl-include
+RUN curl -LOk https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-installer-linux-x86_64.sh && \
+	chmod +x bazel-0.28.1-installer-linux-x86_64.sh && \
+	./bazel-0.28.1-installer-linux-x86_64.sh --user
+RUN /bin/sh build.sh
 CMD ["/bin/sh", "run.sh"]
 EXPOSE 8080
