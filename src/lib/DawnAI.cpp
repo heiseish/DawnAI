@@ -13,19 +13,19 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+#include "src/utils/Logger.hpp"
 #include "TextGenerator.hpp"
 #include "ImageInference.hpp"
 
 namespace dawn{
 
 DawnAI::DawnAI() {
-	spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
-	mainLogger = spdlog::stdout_color_mt("Main Logger"); 
+	logger = std::make_shared<Logger>("Dawn");
 }
 
 void DawnAI::listen(std::string PORT) {
 	auto mode = std::getenv("MODE");
-	std::string IPaddr = strcmp(mode, "docker") == 0 ? "0.0.0.0:" : "127.0.0.1:";
+	std::string IPaddr = strcmp(mode, "docker")  == 0 ? "0.0.0.0:" : "127.0.0.1:";
 	std::string server_address(IPaddr + PORT);
 	ServerBuilder builder;
 	builder.SetMaxReceiveMessageSize(INT_MAX); // TODO need to benchmark to see whether it slows down connection
@@ -37,7 +37,7 @@ void DawnAI::listen(std::string PORT) {
 	builder.RegisterService(&image_recognition_service);
 	// Finally assemble the server.
 	server = builder.BuildAndStart();
-	mainLogger->info("Listening on " + server_address);
+	logger->info("Listening on " + server_address);
 
 	// Wait for the server to shutdown. Note that some other thread must be
 	// responsible for shutting down the server for this call to ever return.

@@ -12,7 +12,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+namespace dawn {
+	bool preprocess(cv::Mat, int, int, std::vector<double>, std::vector<double>, cv::Mat&);
+}
 
-cv::Mat preprocess(cv::Mat, int, int, std::vector<double>, std::vector<double>);
 
 #endif

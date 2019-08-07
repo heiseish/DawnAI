@@ -12,9 +12,7 @@
 #include "protos/image_recognition_service.grpc.pb.h"
 #include "protos/converse_service.grpc.pb.h"
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "src/utils/Logger.hpp"
 
 #include "TextGenerator.hpp"
 #include "ImageInference.hpp"
@@ -48,12 +46,13 @@ namespace dawn {
 		}
 		Status RespondToText(ServerContext* context, const ConversationInput* request,
 			ConversationResponse* reply) override {
-			if (!textGenerator) {
+			std::string output = "";
+			if (!textGenerator->generateReply(request->text(), output)) {
 				reply->set_state(ConversationResponse_State::ConversationResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
 			reply->set_state(ConversationResponse_State::ConversationResponse_State_SUCCESS);
-			reply->set_text(textGenerator->generateReply(request->text()));
+			reply->set_text(output);
 			return Status::OK;
 		}
 	};
@@ -67,19 +66,19 @@ namespace dawn {
 		}
 		Status RecognizeImage(ServerContext* context, const ImageRequest* request,
 			ImageResponse* reply) override {
-			if (!imageInferencer) {
+			std::string output = "";
+			if (!imageInferencer->classifyBase64Image(request->image(), output)) {
 				reply->set_state(ImageResponse_State::ImageResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
 			reply->set_state(ImageResponse_State::ImageResponse_State_SUCCESS);
-			auto result = imageInferencer->classifyBase64Image(request->image());
-			reply->set_text(std::get<0>(result)); // extract the prediction
+			reply->set_text(output); // extract the prediction
 			return Status::OK;
 		}
 	};
 	class DawnAI {
 	private:
-		std::shared_ptr<spdlog::logger> mainLogger;
+		std::shared_ptr<Logger> logger;
 		ConverseServiceImpl converse_service;
 		ImageRecognitionServiceImpl image_recognition_service;
 		std::unique_ptr<Server> server;

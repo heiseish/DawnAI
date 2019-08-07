@@ -18,22 +18,23 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include "src/utils/Logger.hpp"
 #include "src/utils/OpenCvUtils.hpp"
-#include "src/utils/PytorchUtils.hpp"
+#include "TorchDawn.hpp"
 #include <websocketpp/base64/base64.hpp>
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
 
-const int dawn::ImageInference::imageHeight;
-const int dawn::ImageInference::imageWidth;
 
-dawn::ImageInference::ImageInference(const char* labelPath, const char* modelPath) {
+
+namespace dawn {
+
+const int ImageInference::imageHeight;
+const int ImageInference::imageWidth;
+
+ImageInference::ImageInference(const std::string labelPath, const std::string modelPath) {
 	mean = {0.485, 0.456, 0.406};
 	std = {0.229, 0.224, 0.225} ;
-	imageInferenceLogger = spdlog::stdout_color_mt("Image Inference Logger");
+	logger = std::make_shared<Logger>("Image Inference");
 	std::string label;
 	std::ifstream labelsfile (labelPath);
 	if (labelsfile.is_open()) {
@@ -42,16 +43,13 @@ dawn::ImageInference::ImageInference(const char* labelPath, const char* modelPat
 		}
 		labelsfile.close();
 	}
-	model = dawn::readModel(modelPath);
-	if (model.get() == nullptr) {
-		imageInferenceLogger->warn("Image classifier not loaded");
-	} else {
-		imageInferenceLogger->info("Image classifier loaded successfully");
-	}
+	model = std::make_unique<TorchDawn>(modelPath, ready);
+	if (!ready) logger->error("Failed to load image inferencer model!");
+	else logger->info("Loaded image inferencer model successfully!");
 }
 
 // Convert a vector of images to torch Tensor
-torch::Tensor dawn::ImageInference::__convert_images_to_tensor(std::vector<cv::Mat> images) {
+bool ImageInference::__convert_images_to_tensor(std::vector<cv::Mat> images, torch::Tensor& output) {
 	int n_images = images.size();
 	int n_channels = images[0].channels();
 	int height = images[0].rows;
@@ -79,22 +77,14 @@ torch::Tensor dawn::ImageInference::__convert_images_to_tensor(std::vector<cv::M
 		image_as_tensor = image_as_tensor.toType(torch::kFloat32);
 		images_as_tensors.push_back(image_as_tensor);
 	}
-	torch::Tensor output_tensor = torch::cat(images_as_tensors, 0);
-	return output_tensor;
+	output = torch::cat(images_as_tensors, 0);
+	return true;
 }
 
-// Predict
-torch::Tensor dawn::ImageInference::__predict(torch::Tensor tensor) {
-	std::vector<torch::jit::IValue> inputs;
-	inputs.push_back(tensor);
-  	// Execute the model and turn its output into a tensor.
-	torch::Tensor output = model->forward(inputs).toTensor();
-	return output;
-}
 
-// Softmax
-std::vector<float> dawn::ImageInference::__softmax(std::vector<float> unnorm_probs) {
+bool ImageInference::__softmax(const std::vector<float>& unnorm_probs, std::vector<float>& output) {
 	int n_classes = unnorm_probs.size();
+	output.resize(n_classes);
   	// 1. Partition function
 	float log_sum_of_exp_unnorm_probs = 0;
 	for (auto& n : unnorm_probs) {
@@ -102,43 +92,34 @@ std::vector<float> dawn::ImageInference::__softmax(std::vector<float> unnorm_pro
 	}
 	log_sum_of_exp_unnorm_probs = std::log(log_sum_of_exp_unnorm_probs);
   	// 2. normalize
-	std::vector<float> probs(n_classes);
 	for (int class_idx = 0; class_idx != n_classes; class_idx++) {
-		probs[class_idx] = std::exp(unnorm_probs[class_idx] - log_sum_of_exp_unnorm_probs);
+		output[class_idx] = std::exp(unnorm_probs[class_idx] - log_sum_of_exp_unnorm_probs);
 	}
-	return probs;
+	return true;
 }
 
-// Convert output tensor to vector of floats
-std::vector<float> dawn::ImageInference::__get_outputs(torch::Tensor output) {
-	int ndim = output.ndimension();
-	assert(ndim == 2);
-	auto sizes = output.sizes();
-	int n_samples = sizes[0];
-	int n_classes = sizes[1];
-	assert(n_samples == 1);
-	std::vector<float> unnorm_probs(output.data<float>(),
-	output.data<float>() + (n_samples * n_classes));
-  	// Softmax
-	std::vector<float> probs = __softmax(unnorm_probs);
-	return probs;
-}
 
 // 2. Forward
-std::vector<float> dawn::ImageInference::forward(std::vector<cv::Mat> images,
-std::shared_ptr<torch::jit::script::Module> model) {
-  	// 1. Convert OpenCV matrices to torch Tensor
-	torch::Tensor tensor = __convert_images_to_tensor(images);
-  	// 2. Predict
-	torch::Tensor output = __predict(tensor);
-  	// 3. Convert torch Tensor to vector of vector of floats
-	std::vector<float> probs = __get_outputs(output);
-	return probs;
+bool ImageInference::forward(std::vector<cv::Mat> images, std::vector<float>& output) {
+	torch::Tensor tensor;
+	logger->start("Convert", "image to tensor");
+	if (!__convert_images_to_tensor(images, tensor)) {
+		return false;
+	}
+	logger->end();
+	std::vector<float> unnorm_probs;
+
+	logger->start("Input", "image to model");
+	if (!model->forward(tensor, unnorm_probs)) {
+		return false;
+	}
+	logger->end();
+	return __softmax(unnorm_probs, output);
 }
 
 // 3. Postprocess
-std::tuple<std::string, std::string> dawn::ImageInference::postprocess(std::vector<float> probs,
-std::vector<std::string> labels) {
+std::tuple<std::string, std::string> ImageInference::postprocess(const std::vector<float> probs,
+const std::vector<std::string>& labels) {
   // 1. Get label and corresponding probability
 	auto prob = std::max_element(probs.begin(), probs.end());
 	auto label_idx = std::distance(probs.begin(), prob);
@@ -148,38 +129,60 @@ std::vector<std::string> labels) {
 }
 
 
-std::tuple<std::string, std::string> dawn::ImageInference::infer(cv::Mat image) {
+bool ImageInference::infer(cv::Mat image, std::string& output) {
 	if (image.empty()) {
-		imageInferenceLogger->warn("WARNING: Cannot read image!");
+		logger->error("Cannot read image!");
+		return false;
 	}
-	std::string pred = "";
 	std::string prob = "0.0";
-  	// Predict if image is not empty
-	if (!image.empty()) {
-	    // Preprocess image
-		image = preprocess(image, imageHeight, imageWidth,mean, std);
-	    // Forward
-		std::vector<float> probs = forward({image, }, model);
-	    // Postprocess
-		tie(pred, prob) = postprocess(probs, labels);
+	cv::Mat preprocessedImage;
+	// Preprocess image
+	logger->start("Preprocess", "the image");
+	if (!preprocess(image, imageHeight, imageWidth,mean, std, preprocessedImage)) {
+		logger->error("Unable to preprocess the image");
+		return false;
 	}
-	imageInferenceLogger->info(pred);
-	return std::make_tuple(pred, prob);
+	logger->end();
+	std::vector<float> probabilities;
+	// Forward
+	logger->start("Run", "inference on the image");
+	if (!forward({preprocessedImage, }, probabilities)) {
+		return false;
+	}
+	logger->end();
+	// Postprocess
+	logger->start("Post-process", "the image");
+	tie(output, prob) = postprocess(probabilities, labels);
+	logger->end();
+	return true;
 }
 
 
-std::tuple<std::string, std::string> dawn::ImageInference::classifyLocalImage(const char* imagePath) {
+bool ImageInference::classifyLocalImage(const std::string& imagePath,  std::string &output) {
 	cv::Mat image = cv::imread(imagePath, -1);
 	std::string pred, prob;
-	return infer(image);
+	return infer(image, output);
 }
 
-std::tuple<std::string, std::string> dawn::ImageInference::classifyBase64Image(std::string base64Image) {
-      std::string decodedImage = websocketpp::base64_decode(base64Image);
-      std::vector<uchar> imageData(decodedImage.begin(), decodedImage.end());
-      cv::Mat image = cv::imdecode(imageData, cv::IMREAD_UNCHANGED);
-      std::string pred, prob;
-      return infer(image);
+bool ImageInference::classifyBase64Image(const std::string& base64Image, 
+	std::string& output) {
+	if (!ready) {
+		logger->error("Image inference model not ready");
+		return false;
+	}
+
+	logger->start("Decode", "base 64 image");
+	std::string decodedImage = websocketpp::base64_decode(base64Image);
+	std::vector<uchar> imageData(decodedImage.begin(), decodedImage.end());
+	logger->end();
+
+	logger->start("Copy", "image data to opencv");
+	cv::Mat image = cv::imdecode(imageData, cv::IMREAD_UNCHANGED);
+	logger->end();
+	return infer(image, output);
 }
+
+}
+
 
 

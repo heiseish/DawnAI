@@ -7,28 +7,26 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <exception>
 
 #include "KeyWordDetector.hpp"
 #include "src/utils/StringUtils.hpp"
-#include "src/utils/PytorchUtils.hpp"
+#include "TorchDawn.hpp"
 #include <json.hpp>
 
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "src/utils/Logger.hpp"
 
-dawn::TextGenerator::TextGenerator(const char* path, const char* profanityCollection) {
-	textGeneratorInputLogger = spdlog::stdout_color_mt("Input text");
-	textGeneratorResponseLogger = spdlog::stdout_color_mt("Response Text");
+namespace dawn {
 
-	module = dawn::readModel(path);
-	if (module.get() == nullptr) {
-		textGeneratorInputLogger->warn("Path to model is not valid");
-	} else textGeneratorInputLogger->info("Text classifier loaded successfully");
+TextGenerator::TextGenerator(const std::string& path, const std::string& profanityCollection) {
+	logger = std::make_shared<Logger>("Text Generator");
+	module = std::make_unique<TorchDawn>(path, ready);
+	if (!ready) logger->error("Text generator model load fails!");
+	else logger->info("Text generator model loaded successfully");
 
-	currentStringUtils = std::make_shared<dawn::StringUtils>();
-	profanityDetector = std::make_shared<dawn::KeyWordDetector>();
+	currentStringUtils = std::make_shared<StringUtils>();
+	profanityDetector = std::make_shared<KeyWordDetector>();
 
 	std::ifstream profanityJSON (profanityCollection, std::ifstream::binary);
 	auto f = nlohmann::json::parse(profanityJSON);
@@ -39,14 +37,17 @@ dawn::TextGenerator::TextGenerator(const char* path, const char* profanityCollec
 
 }
 
-std::string dawn::TextGenerator::generateReply(const std::string& s, 
-	const int MAX_LENGTH) {
-	textGeneratorInputLogger->info(s);
+bool TextGenerator::generateReply(const std::string& input, std::string& output) {
+	if (!ready) {
+		return false;
+	}
+	logger->info(input);
 
-	std::string r = currentStringUtils->normalizeString(s);
-	std::vector<std::vector<int> > prof = profanityDetector->searchForOccurenceInString(r); // occurence of profanity
+	std::string normalizedString = currentStringUtils->normalizeString(input);
+
+	std::vector<std::vector<int> > prof = profanityDetector->searchForOccurenceInString(normalizedString); // occurence of profanity
 	
-	std::vector<int64_t> indexes = currentStringUtils->indexesFromSentence(r);
+	std::vector<int64_t> indexes = currentStringUtils->indexesFromSentence(normalizedString);
 	int64_t length = indexes.size();
 	at::TensorOptions options(at::ScalarType::Long);
 	// convert temp into length x 1 Tensor
@@ -55,12 +56,14 @@ std::string dawn::TextGenerator::generateReply(const std::string& s,
 	auto lengthTensor = torch::from_blob(lengthVector.data(), { 1 } , options);
 
 	// // Execute the model and turn its output into a tensor.
-	auto output = module->forward({ inputSequence, lengthTensor, MAX_LENGTH}).toTuple()->elements();
-	int64_t size = output[0].toTensor().size(0);
-	auto mem = output[0].toTensor().data<int64_t>();
-	std::vector<int64_t> integerOutput(mem, mem + size);
+	std::vector<int64_t> model_output;
+	std::vector<c10::IValue> model_input { inputSequence, lengthTensor, MAX_LENGTH};
+	if (!module->forward(model_input, model_output, 1)) {
+		logger->error("Generating text fails");
+		return false;
+	}
+	output = currentStringUtils->sentenceFromIndexes(model_output);
+	return  true;
+}
 
-	std::string answer = currentStringUtils->sentenceFromIndexes(integerOutput);
-	textGeneratorResponseLogger->info(answer);
-	return  answer;
 }

@@ -1,4 +1,18 @@
 cc_library(
+    name = "TorchDawn",
+    srcs = ["TorchDawn.cpp"],
+    hdrs = ["TorchDawn.hpp"],
+	deps = [
+		"@torch//:torch",
+		"@spdlog//:spdlog",
+	],
+	data = [
+        "//src/model:torch_model",
+    ],
+    visibility = ["//src/lib:__pkg__"],
+)
+
+cc_library(
     name = "DawnAI",
     srcs = ["DawnAI.cpp"],
     hdrs = ["DawnAI.hpp"],
@@ -7,11 +21,8 @@ cc_library(
 		"//protos:grpc_service_cpp_proto",
 		"//src/lib:ImageInference",
 		"//src/lib:TextGenerator",
-		"@spdlog//:spdlog",
+		"//src/utils:Logger",
 	],
-	data = [
-        "//src/model:torch_model",
-    ],
 )
 cc_library(
     name = "ImageInference",
@@ -19,12 +30,13 @@ cc_library(
     hdrs = ["ImageInference.hpp"],
     visibility = ["//src:__pkg__"],
 	deps = [
-		"//src/utils:PytorchUtils",	
+		
 		"//src/utils:OpenCVUtils",
 		"@torch//:torch",
-		"@spdlog//:spdlog",
+		"//src/lib:TorchDawn",
 		"@websocketpp//:websocketpp",
 		"@opencv4//:opencv4",
+		"//src/utils:Logger",
 	],
 	data = [
         "//src/model:torch_model",
@@ -44,14 +56,16 @@ cc_library(
 	deps = [
 		"//src/lib:KeyWordDetector",
 		"//src/utils:StringUtils",	
-		"//src/utils:PytorchUtils",	
+				
 		"@torch//:torch",
-		"@spdlog//:spdlog",	
+		"//src/lib:TorchDawn",
+		"//src/utils:Logger",
 		"@json//:json",
 	],
 	data = [
         "//src/model:torch_model",
     ],
 )
+
 
 

@@ -8,20 +8,21 @@ cc_library(
     visibility = ["//src/lib:__pkg__"],
 )
 cc_library(
-    name = "PytorchUtils",
-    srcs = ["PytorchUtils.cpp"],
-    hdrs = ["PytorchUtils.hpp"],
-	deps = [
-		"@torch//:torch",
-	],
-    visibility = ["//src/lib:__pkg__"],
-)
-cc_library(
     name = "StringUtils",
     srcs = ["StringUtils.cpp"],
     hdrs = ["StringUtils.hpp"],
 	deps = [
 		"@json//:json",
+	],
+    visibility = ["//src/lib:__pkg__"],
+)
+
+cc_library(
+    name = "Logger",
+    srcs = ["Logger.cpp"],
+    hdrs = ["Logger.hpp"],
+	deps = [
+		"@spdlog//:spdlog",
 	],
     visibility = ["//src/lib:__pkg__"],
 )

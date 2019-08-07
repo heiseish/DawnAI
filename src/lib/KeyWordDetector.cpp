@@ -4,21 +4,23 @@
 #include <string>
 #include <algorithm>
 
-const int dawn::KeyWordDetector::numLetter;
-dawn::KeyWordDetector::Vertex::Vertex(int p, char ch) : p(p), pch(ch) {
+namespace dawn {
+
+const int KeyWordDetector::numLetter;
+KeyWordDetector::Vertex::Vertex(int p, char ch) : p(p), pch(ch) {
 	next.assign(numLetter, -1);
 	go.assign(numLetter, -1);
 }
 
-int dawn::KeyWordDetector::toInt(char ch) {
+int KeyWordDetector::toInt(char ch) {
 	return ch - ' ';
 }
 
-dawn::KeyWordDetector::KeyWordDetector() {
+KeyWordDetector::KeyWordDetector() {
 	t.emplace_back();
 }
 
-void dawn::KeyWordDetector::addString(std::string const& s, int idx) {
+void KeyWordDetector::addString(std::string const& s, int idx) {
 	int v = root;
 	for (auto ch : s) {
 		int c = toInt(ch);
@@ -36,7 +38,7 @@ void dawn::KeyWordDetector::addString(std::string const& s, int idx) {
 	numPattern = std::max(numPattern, idx);
 }
 
-int dawn::KeyWordDetector::getLink(int v) {
+int KeyWordDetector::getLink(int v) {
 	if (t[v].link == -1) {
 		if (v == 0 || t[v].p == 0)
 			t[v].link = 0;
@@ -46,7 +48,7 @@ int dawn::KeyWordDetector::getLink(int v) {
 	return t[v].link;
 }
 
-int dawn::KeyWordDetector::go(int v, char ch) {
+int KeyWordDetector::go(int v, char ch) {
 	int c = toInt(ch);
 	if (t[v].go[c] == -1) {
 		if (t[v].next[c] != -1)
@@ -57,14 +59,14 @@ int dawn::KeyWordDetector::go(int v, char ch) {
 	return t[v].go[c];
 } 
 
-int dawn::KeyWordDetector::getExitLink(int v) {
+int KeyWordDetector::getExitLink(int v) {
 	if (t[v].exitLink != -1) return t[v].exitLink;
 	int k = getLink(v);
 	if (k == 0 || t[k].leaf) return t[v].exitLink = k;
 	return t[v].exitLink = getExitLink(k);
 }
 
-std::vector<std::vector<int> > dawn::KeyWordDetector::searchForOccurenceInString(const std::string& text) {
+std::vector<std::vector<int> > KeyWordDetector::searchForOccurenceInString(const std::string& text) {
 	std::vector<std::vector<int> > ans(numPattern, std::vector<int>());
 	int idx = 1;
 	int v = root;
@@ -81,4 +83,7 @@ std::vector<std::vector<int> > dawn::KeyWordDetector::searchForOccurenceInString
 	}
 	return ans;
 }
+
+}
+
 

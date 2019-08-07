@@ -22,41 +22,37 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "src/utils/OpenCvUtils.hpp"
-#include "src/utils/PytorchUtils.hpp"
+#include "TorchDawn.hpp"
 
 #include <websocketpp/base64/base64.hpp>
-
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "src/utils/Logger.hpp"
 
 namespace dawn {
-	class ImageInference {
-	private:
-		std::vector<std::string> labels;
-		std::shared_ptr<torch::jit::script::Module> model;
-		std::shared_ptr<spdlog::logger> imageInferenceLogger;
-		std::shared_ptr<torch::jit::script::Module> readModel(std::string);
-		std::vector<float> forward(std::vector<cv::Mat>,
-		  std::shared_ptr<torch::jit::script::Module>);
-		std::tuple<std::string, std::string> postprocess(std::vector<float>,
-		  std::vector<std::string>);
-		torch::Tensor __convert_images_to_tensor(std::vector<cv::Mat>);
-		torch::Tensor __predict(torch::Tensor);
-		std::vector<float> __softmax(std::vector<float>);
-		std::vector<float> __get_outputs(torch::Tensor);
-	public:
-		static const int imageHeight = 224;
-	  	static const int imageWidth = 224;
-	  	std::vector<double> mean;
-		std::vector<double> std;
+class ImageInference {
+private:
+	std::vector<std::string> labels;
+	// std::shared_ptr<torch::jit::script::Module> model;
+	std::unique_ptr<TorchDawn> model;
+	std::shared_ptr<Logger> logger;
+	bool forward(std::vector<cv::Mat>, std::vector<float>&);
+	std::tuple<std::string, std::string> postprocess(const std::vector<float>,
+		const std::vector<std::string>&);
+	bool __convert_images_to_tensor(std::vector<cv::Mat>, torch::Tensor&);
+	bool __softmax(const std::vector<float>&, std::vector<float>&);
+	bool infer(cv::Mat, std::string&);
+	bool ready = true;
+public:
+	static const int imageHeight = 224;
+	static const int imageWidth = 224;
+	std::vector<double> mean;
+	std::vector<double> std;
 
-		ImageInference(const char* labelPath="src/model/labels.txt", 
-			const char* modelPath="src/model/resnet_model.pth");
-		std::tuple<std::string, std::string> infer(cv::Mat);
-		std::tuple<std::string, std::string> classifyLocalImage(const char*);
-		std::tuple<std::string, std::string> classifyBase64Image(std::string);
-	};
+	ImageInference(const std::string labelPath="src/model/labels.txt", 
+		const std::string modelPath="src/model/resnet_model.pth");
+	
+	bool classifyLocalImage(const std::string&, std::string&);
+	bool classifyBase64Image(const std::string&, std::string&);
+};
 }
 
 
