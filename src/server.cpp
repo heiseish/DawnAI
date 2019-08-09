@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
 	dawn::DawnAI app;
-	char* port = std::getenv("PORT");
+	const char* port = std::getenv("PORT");
     const std::string port_string(port);
 	app.listen(port_string);
 	return 0;

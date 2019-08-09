@@ -20,14 +20,18 @@ public:
 	Logger(const char*);
 	~Logger();
 	void info(const char*);
-
 	void info(const std::string&);
+
 	void warn(const char*);
-
 	void warn(const std::string&);
-	void error(const char*);
 
+	void error(const char*);
 	void error(const std::string&);
+
+	void debug(const char*);
+	void debug(const std::string&);
+	
+
 	void start(const char*, const char*);
 	void start(const char*);
 

@@ -10,8 +10,9 @@
 namespace dawn {
 
 Logger::Logger(const char* loggerName) {
-	spdlog::set_pattern("[%H:%M:%S] [%n] [%^---%L---%$] %v");
+	spdlog::set_pattern("[%H:%M:%S] %^[%n] [-%L-]%$ %v ");
 	logger = spdlog::stdout_color_mt(loggerName); 
+	logger->set_level(spdlog::level::level_enum::debug);
 }
 Logger::~Logger() {
 	clean();
@@ -27,6 +28,12 @@ void Logger::warn(const char* message) {
 }
 void Logger::warn(const std::string& message) {
 	logger->warn(message);
+}
+void Logger::debug(const std::string& message) {
+	logger->debug(message);
+}
+void Logger::debug(const char* message) {
+	logger->debug(message);
 }
 void Logger::error(const char* message) {
 	logger->error(message);
@@ -49,13 +56,13 @@ void Logger::start(const std::string& verb, const std::string& target) {
 void Logger::start(const char* verb) {
 	startTimes.push(std::chrono::high_resolution_clock::now());
 	actions.push(std::string(verb)); // COPY could take long
-	logger->info(actions.top());
+	logger->debug(actions.top());
 }
 
 void Logger::start(const std::string& verb) {
 	startTimes.push(std::chrono::high_resolution_clock::now());
 	actions.push(std::string(verb)); // COPY could take long
-	logger->info(actions.top());
+	logger->debug(actions.top());
 }
 
 void Logger::end() {
@@ -66,15 +73,14 @@ void Logger::end() {
 	auto endTime = std::chrono::high_resolution_clock::now();
 	auto& start = startTimes.top();
 	startTimes.pop();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>( endTime - start ).count();
-    logger->info("Finished " + actions.top() + " in " + std::to_string(duration) + "us");
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( endTime - start ).count();
+    logger->debug("Finished " + actions.top() + " in " + std::to_string(duration) + "ms");
 	actions.pop();
 }
 
 void Logger::clean() {
 	startTimes = {};
 	actions = {};
-
 }
 	
 }

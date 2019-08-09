@@ -43,10 +43,9 @@ bool TextGenerator::generateReply(const std::string& input, std::string& output)
 	}
 	logger->info(input);
 
+	logger->start("Preprocess", "text sentence");
 	std::string normalizedString = currentStringUtils->normalizeString(input);
-
 	std::vector<std::vector<int> > prof = profanityDetector->searchForOccurenceInString(normalizedString); // occurence of profanity
-	
 	std::vector<int64_t> indexes = currentStringUtils->indexesFromSentence(normalizedString);
 	int64_t length = indexes.size();
 	at::TensorOptions options(at::ScalarType::Long);
@@ -54,15 +53,22 @@ bool TextGenerator::generateReply(const std::string& input, std::string& output)
 	auto inputSequence = torch::from_blob(indexes.data(), { length, 1 }, options);
 	std::vector<int64_t> lengthVector { length };
 	auto lengthTensor = torch::from_blob(lengthVector.data(), { 1 } , options);
+	logger->end();
 
 	// // Execute the model and turn its output into a tensor.
 	std::vector<int64_t> model_output;
 	std::vector<c10::IValue> model_input { inputSequence, lengthTensor, MAX_LENGTH};
+	
+	logger->start("Run", "text generation");
 	if (!module->forward(model_input, model_output, 1)) {
 		logger->error("Generating text fails");
 		return false;
 	}
+	logger->end();
+	
+	logger->start("Convert", "numeric array to sentences");
 	output = currentStringUtils->sentenceFromIndexes(model_output);
+	logger->end();
 	return  true;
 }
 

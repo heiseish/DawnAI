@@ -12,6 +12,7 @@ docker-build:
 
 docker-run:
 	sudo docker run --rm \
+		-it -e "TERM=xterm-256color" \
 		-m=4g \
   		-p 8080:8080 \
   		heiseish/dawnai:v1.0.0

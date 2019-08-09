@@ -26,6 +26,7 @@ namespace dawn {
 	using grpc::ServerBuilder;
 	using grpc::ServerContext;
 	using grpc::Status;
+	using grpc::ResourceQuota;
 	// Converse
 	using ConverseServiceGRPC::ConverseService;
 	using ConverseServiceGRPC::ConversationInput;

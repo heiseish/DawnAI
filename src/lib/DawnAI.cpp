@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <grpc++/grpc++.h>
-
+#include <grpc++/resource_quota.h>
 #include "protos/image_recognition_service.grpc.pb.h"
 #include "protos/converse_service.grpc.pb.h"
 
@@ -28,7 +28,11 @@ void DawnAI::listen(std::string PORT) {
 	std::string IPaddr = strcmp(mode, "docker")  == 0 ? "0.0.0.0:" : "127.0.0.1:";
 	std::string server_address(IPaddr + PORT);
 	ServerBuilder builder;
+	ResourceQuota resource_quota;
+	resource_quota.SetMaxThreads(2);
+
 	builder.SetMaxReceiveMessageSize(INT_MAX); // TODO need to benchmark to see whether it slows down connection
+	builder.SetResourceQuota(resource_quota);
 	// Listen on the given address without any authentication mechanism.
 	builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
 	// Register "service" as the instance through which we'll communicate with
@@ -38,7 +42,6 @@ void DawnAI::listen(std::string PORT) {
 	// Finally assemble the server.
 	server = builder.BuildAndStart();
 	logger->info("Listening on " + server_address);
-
 	// Wait for the server to shutdown. Note that some other thread must be
 	// responsible for shutting down the server for this call to ever return.
 	server->Wait();
