@@ -6,9 +6,6 @@ cc_library(
 		"@torch//:torch",
 		"@spdlog//:spdlog",
 	],
-	data = [
-        "//src/model:torch_model",
-    ],
     visibility = ["//src/lib:__pkg__"],
 )
 
@@ -19,28 +16,25 @@ cc_library(
     visibility = ["//src:__pkg__"],
 	deps = [
 		"//protos:grpc_service_cpp_proto",
-		"//src/lib:ImageInference",
-		"//src/lib:TextGenerator",
+		"//src/lib:ImageClassifier",
+		"//src/lib:Seq2Seq",
 		"//src/utils:Logger",
 	],
 )
 cc_library(
-    name = "ImageInference",
-    srcs = ["ImageInference.cpp"],
-    hdrs = ["ImageInference.hpp"],
+    name = "ImageClassifier",
+    srcs = ["ImageClassifier.cpp"],
+    hdrs = ["ImageClassifier.hpp"],
     visibility = ["//src:__pkg__"],
 	deps = [
 		
-		"//src/utils:OpenCVUtils",
+		"//src/utils:ImageUtils",
 		"@torch//:torch",
 		"//src/lib:TorchDawn",
 		"@websocketpp//:websocketpp",
 		"@opencv4//:opencv4",
 		"//src/utils:Logger",
 	],
-	data = [
-        "//src/model:torch_model",
-    ],
 )
 cc_library(
     name = "KeyWordDetector",
@@ -49,9 +43,9 @@ cc_library(
     visibility = ["//src:__pkg__"],
 )
 cc_library(
-    name = "TextGenerator",
-    srcs = ["TextGenerator.cpp"],
-    hdrs = ["TextGenerator.hpp"],
+    name = "Seq2Seq",
+    srcs = ["Seq2Seq.cpp"],
+    hdrs = ["Seq2Seq.hpp"],
     visibility = ["//src:__pkg__"],
 	deps = [
 		"//src/lib:KeyWordDetector",
@@ -63,7 +57,8 @@ cc_library(
 		"@json//:json",
 	],
 	data = [
-        "//src/model:torch_model",
+        "//src/model/imageClassifier:image_classifier_data",
+		"//src/model/seq2seq:seq2seq_data",
     ],
 )
 

@@ -22,8 +22,8 @@ public:
 	static const int EOS_token = 2;  // End-of-sentence token
 	static const int MIN_COUNTs = 3;  // Minimum word count threshold for trimming
 	static const int MAX_LENGTH = 10;  // Maximum sentence length to consider
-	StringUtils(const std::string& word2indexPath="src/model/word2index.json", 
-		const std::string& index2wordPath="src/model/index2word.json");
+	StringUtils(const std::string& word2indexPath="src/model/seq2seq/word2index.json", 
+		const std::string& index2wordPath="src/model/seq2seq/index2word.json");
 	/** 
 	* Lowercase, trim, and remove non-letter characters
 	*/

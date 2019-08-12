@@ -9,13 +9,13 @@
 
 #include <grpc++/grpc++.h>
 
-#include "protos/image_recognition_service.grpc.pb.h"
-#include "protos/converse_service.grpc.pb.h"
+#include "protos/image_classification_service.grpc.pb.h"
+#include "protos/seq2seq_service.grpc.pb.h"
 
 #include "src/utils/Logger.hpp"
 
-#include "TextGenerator.hpp"
-#include "ImageInference.hpp"
+#include "Seq2Seq.hpp"
+#include "ImageClassifier.hpp"
 
 
 
@@ -28,27 +28,27 @@ namespace dawn {
 	using grpc::Status;
 	using grpc::ResourceQuota;
 	// Converse
-	using ConverseServiceGRPC::ConverseService;
-	using ConverseServiceGRPC::ConversationInput;
-	using ConverseServiceGRPC::ConversationResponse;
-	using ConverseServiceGRPC::ConversationResponse_State;
+	using Seq2SeqGRPC::Seq2SeqService;
+	using Seq2SeqGRPC::ConversationInput;
+	using Seq2SeqGRPC::ConversationResponse;
+	using Seq2SeqGRPC::ConversationResponse_State;
 	// Image
-	using ImageRecognitionServiceRPC::ImageRecognitionService;
-	using ImageRecognitionServiceRPC::ImageRequest;
-	using ImageRecognitionServiceRPC::ImageResponse;
-	using ImageRecognitionServiceRPC::ImageResponse_State;
+	using ImageClassificationServiceRPC::ImageClassificationService;
+	using ImageClassificationServiceRPC::ImageRequest;
+	using ImageClassificationServiceRPC::ImageResponse;
+	using ImageClassificationServiceRPC::ImageResponse_State;
 	// Logic and data behind the server's behavior.
-	class ConverseServiceImpl final : public ConverseService::Service {
+	class Seq2SeqServiceImpl final : public Seq2SeqService::Service {
 	private:
-		std::unique_ptr<dawn::TextGenerator> textGenerator;
+		std::unique_ptr<dawn::Seq2Seq> seq2seq;
 	public:
-		ConverseServiceImpl() {
-			textGenerator = std::make_unique<TextGenerator>();
+		Seq2SeqServiceImpl() {
+			seq2seq = std::make_unique<Seq2Seq>();
 		}
 		Status RespondToText(ServerContext* context, const ConversationInput* request,
 			ConversationResponse* reply) override {
 			std::string output = "";
-			if (!textGenerator->generateReply(request->text(), output)) {
+			if (!seq2seq->generateReply(request->text(), output)) {
 				reply->set_state(ConversationResponse_State::ConversationResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
@@ -58,17 +58,17 @@ namespace dawn {
 		}
 	};
 
-	class ImageRecognitionServiceImpl final : public ImageRecognitionService::Service {
+	class ImageClassificationServiceImpl final : public ImageClassificationService::Service {
 	private:
-		std::unique_ptr<dawn::ImageInference> imageInferencer;
+		std::unique_ptr<dawn::ImageClassifier> imageClassifier;
 	public:
-		ImageRecognitionServiceImpl() {
-			imageInferencer = std::make_unique<ImageInference>();
+		ImageClassificationServiceImpl() {
+			imageClassifier = std::make_unique<ImageClassifier>();
 		}
 		Status RecognizeImage(ServerContext* context, const ImageRequest* request,
 			ImageResponse* reply) override {
 			std::string output = "";
-			if (!imageInferencer->classifyBase64Image(request->image(), output)) {
+			if (!imageClassifier->classifyImage(request->image(), output)) {
 				reply->set_state(ImageResponse_State::ImageResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
@@ -80,8 +80,8 @@ namespace dawn {
 	class DawnAI {
 	private:
 		std::shared_ptr<Logger> logger;
-		ConverseServiceImpl converse_service;
-		ImageRecognitionServiceImpl image_recognition_service;
+		Seq2SeqServiceImpl converse_service;
+		ImageClassificationServiceImpl image_classification_service;
 		std::unique_ptr<Server> server;
 	public:
 		DawnAI();

@@ -6,16 +6,16 @@
 
 #include <grpc++/grpc++.h>
 #include <grpc++/resource_quota.h>
-#include "protos/image_recognition_service.grpc.pb.h"
-#include "protos/converse_service.grpc.pb.h"
+#include "protos/image_classification_service.grpc.pb.h"
+#include "protos/seq2seq_service.grpc.pb.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include "src/utils/Logger.hpp"
-#include "TextGenerator.hpp"
-#include "ImageInference.hpp"
+#include "Seq2Seq.hpp"
+#include "ImageClassifier.hpp"
 
 namespace dawn{
 
@@ -31,14 +31,14 @@ void DawnAI::listen(std::string PORT) {
 	ResourceQuota resource_quota;
 	resource_quota.SetMaxThreads(2);
 
-	builder.SetMaxReceiveMessageSize(INT_MAX); // TODO need to benchmark to see whether it slows down connection
+	// builder.SetMaxReceiveMessageSize(INT_MAX); // TODO need to benchmark to see whether it slows down connection
 	builder.SetResourceQuota(resource_quota);
 	// Listen on the given address without any authentication mechanism.
 	builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
 	// Register "service" as the instance through which we'll communicate with
 	// clients. In this case it corresponds to an *synchronous* service.
 	builder.RegisterService(&converse_service);
-	builder.RegisterService(&image_recognition_service);
+	builder.RegisterService(&image_classification_service);
 	// Finally assemble the server.
 	server = builder.BuildAndStart();
 	logger->info("Listening on " + server_address);

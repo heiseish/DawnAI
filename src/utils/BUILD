@@ -1,8 +1,9 @@
 cc_library(
-    name = "OpenCVUtils",
-    srcs = ["OpenCvUtils.cpp"],
-    hdrs = ["OpenCvUtils.hpp"],
+    name = "ImageUtils",
+    srcs = ["ImageUtils.cpp"],
+    hdrs = ["ImageUtils.hpp"],
 	deps = [
+		"@curl//:curl",
 		"@opencv4//:opencv4",
 	],
     visibility = ["//src/lib:__pkg__"],

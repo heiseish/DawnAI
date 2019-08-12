@@ -70,6 +70,12 @@ new_local_repository(
 )
 
 new_local_repository(
+    name = "curl",
+    path = "dep/curl",
+    build_file = "3rdparty_buildfiles/curl.BUILD",
+)
+
+new_local_repository(
     name = "websocketpp",
     path = "dep/websocketpp",
     build_file = "3rdparty_buildfiles/websocketpp.BUILD",

@@ -1,10 +1,8 @@
 #include "StringUtils.hpp"
-
 #include <regex>
 #include <unordered_map>
 #include <string>
 #include <fstream>
-
 #include <json.hpp>
 
 const int dawn::StringUtils::PAD_token;
