@@ -1,4 +1,4 @@
-#include "ImageUtils.hpp"
+#include "Image.hpp"
 
 #include <curl/curl.h> // has to go before opencv headers
 
@@ -6,7 +6,7 @@
 #include <vector>
 #include <math.h>
 
-
+#include "src/utils/Logger.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
@@ -55,21 +55,27 @@ cv::Mat __normalize_mean_std(cv::Mat image, std::vector<double> mean, std::vecto
 }
 
 // 1. Preprocess
-bool preprocess(cv::Mat image, int newHeight, int newWidth, 
-	std::vector<double> mean, std::vector<double> std, cv::Mat& output) {
-	// Clone
-	output = image.clone();
-	// Convert from BGR to RGB
-	cv::cvtColor(output, output, cv::COLOR_BGR2RGB);
-	// Resize image
-	output = __resize_to_a_size(output, newHeight, newWidth);	
-	// Convert image to float
-	output.convertTo(output, CV_32FC3);
-	// 3. Normalize to [0, 1]
-	output = output / 255.0;
-	// 4. Subtract mean and divide by std
-	output = __normalize_mean_std(output, mean, std);
-
+bool ImageUtil::Preprocess(cv::Mat& output, cv::Mat image, int newHeight, int newWidth, 
+	std::vector<double> mean, std::vector<double> std) {
+    try {
+        // Clone
+        output = image.clone();
+        // Convert from BGR to RGB
+        cv::cvtColor(output, output, cv::COLOR_BGR2RGB);
+        // Resize image
+        output = __resize_to_a_size(output, newHeight, newWidth);	
+        // Convert image to float
+        output.convertTo(output, CV_32FC3);
+        // 3. Normalize to [0, 1]
+        output = output / 255.0;
+        // 4. Subtract mean and divide by std
+        output = __normalize_mean_std(output, mean, std);
+    } catch (const std::exception& e) {
+        DAWN_ERROR(e.what());
+        return false;
+	} catch(...) {
+		return false;
+	}
 	return true;
 }
 
@@ -85,8 +91,10 @@ size_t write_data(char *ptr, size_t size, size_t nmemb, void *userdata) {
     return count;
 }
 
-//function to retrieve the image as cv::Mat data type
-bool download(const char *img_url, cv::Mat& output, int timeout) {
+/**
+  * @brief function to retrieve the image as cv::Mat data type
+  */
+bool ImageUtil::Download(cv::Mat& output, const char *img_url, int timeout) {
     std::vector<char> stream;
     CURL *curl = curl_easy_init();
     curl_easy_setopt(curl, CURLOPT_URL, img_url); //the img url

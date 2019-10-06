@@ -18,23 +18,20 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include "src/utils/Logger.hpp"
-#include "src/utils/ImageUtils.hpp"
-#include "TorchDawn.hpp"
+
 #include <websocketpp/base64/base64.hpp>
 
+#include "src/utils/Logger.hpp"
+#include "src/utils/Image.hpp"
 
-
+#include "src/engines/specific/InferenceBlob.hpp"
+#include "src/engines/specific/TorchEngine.hpp"
+#include "src/engines/specific/InferenceEngine.hpp"
 
 namespace dawn {
 
-const int ImageClassifier::imageHeight;
-const int ImageClassifier::imageWidth;
 
-ImageClassifier::ImageClassifier(const std::string labelPath, const std::string modelPath) {
-	mean = {0.485, 0.456, 0.406};
-	std = {0.229, 0.224, 0.225} ;
-	logger = std::make_shared<Logger>("Image Inference");
+bool ImageClassifier::Initialize(const std::string labelPath, const std::string modelPath) {
 	std::string label;
 	std::ifstream labelsfile (labelPath);
 	if (labelsfile.is_open()) {
@@ -43,13 +40,20 @@ ImageClassifier::ImageClassifier(const std::string labelPath, const std::string 
 		}
 		labelsfile.close();
 	}
-	model = std::make_unique<TorchDawn>(modelPath, ready);
-	if (!ready) logger->error("Failed to load image inferencer model!");
-	else logger->info("Loaded image inferencer model successfully!");
+    InferenceResource resource;
+    resource.emplace(INFERENCE_ENGINE_MODEL_PATH, modelPath);
+	model = std::make_unique<TorchEngine>(169);
+    if (!model->Initialize(resource)) {
+        DAWN_ERROR("Failed to load torch engine for image classifier");
+        return false;
+    } 
+    ready = true;
+    DAWN_INFO("Image classifier is loadded up successfully!");
+    return true;
 }
 
 // Convert a vector of images to torch Tensor
-bool ImageClassifier::__convert_images_to_tensor(std::vector<cv::Mat> images, torch::Tensor& output) {
+bool ImageClassifier::__convert_images_to_tensor(std::vector<cv::Mat> images, torch::Tensor& output) const {
 	int n_images = images.size();
 	int n_channels = images[0].channels();
 	int height = images[0].rows;
@@ -82,7 +86,7 @@ bool ImageClassifier::__convert_images_to_tensor(std::vector<cv::Mat> images, to
 }
 
 
-bool ImageClassifier::__softmax(const std::vector<float>& unnorm_probs, std::vector<float>& output) {
+bool ImageClassifier::__softmax(const std::vector<float>& unnorm_probs, std::vector<float>& output) const {
 	int n_classes = unnorm_probs.size();
 	output.resize(n_classes);
   	// 1. Partition function
@@ -100,26 +104,37 @@ bool ImageClassifier::__softmax(const std::vector<float>& unnorm_probs, std::vec
 
 
 // 2. Forward
-bool ImageClassifier::forward(std::vector<cv::Mat> images, std::vector<float>& output) {
+bool ImageClassifier::forward(std::vector<cv::Mat> images, std::vector<float>& output) const {
 	torch::Tensor tensor;
-	logger->start("Convert", "image to tensor");
 	if (!__convert_images_to_tensor(images, tensor)) {
 		return false;
 	}
-	logger->end();
-	std::vector<float> unnorm_probs;
-
-	logger->start("Input", "image to model");
-	if (!model->forward(tensor, unnorm_probs)) {
+    c10::IValue outputBlob;
+    torch::jit::Stack inputBlob { tensor };
+    // ------------------- Inference ------------------------
+	if (!model->Forward(outputBlob, inputBlob)) {
+        DAWN_ERROR("Image classifier inference failed");
 		return false;
 	}
-	logger->end();
+    // -------------------- get output tensor -----------------------
+    auto outputTensor = outputBlob.toTensor();
+    int ndim = outputTensor.ndimension();
+    size_t totalSize = 1;
+    auto sizes = outputTensor.sizes();
+    for (int i = 0; i < ndim; ++i) {
+        if (totalSize > LLONG_MAX / sizes[i]) {
+            return false;
+        }
+        totalSize *= sizes[i];
+    }
+    auto start = outputTensor.data<float>();
+    std::vector<float> unnorm_probs(start, start + totalSize);
 	return __softmax(unnorm_probs, output);
 }
 
 // 3. Postprocess
 std::tuple<std::string, std::string> ImageClassifier::postprocess(const std::vector<float> probs,
-const std::vector<std::string>& labels) {
+const std::vector<std::string>& labels) const {
   // 1. Get label and corresponding probability
 	auto prob = std::max_element(probs.begin(), probs.end());
 	auto label_idx = std::distance(probs.begin(), prob);
@@ -129,56 +144,50 @@ const std::vector<std::string>& labels) {
 }
 
 
-bool ImageClassifier::infer(cv::Mat image, std::string& output) {
+bool ImageClassifier::infer(cv::Mat image, std::string& output) const {
 	if (image.empty()) {
-		logger->error("Cannot read image!");
+		DAWN_ERROR("Cannot read image!");
 		return false;
 	}
 	std::string prob = "0.0";
 	cv::Mat preprocessedImage;
 	// Preprocess image
-	logger->start("Preprocess", "the image");
-	if (!preprocess(image, imageHeight, imageWidth,mean, std, preprocessedImage)) {
-		logger->error("Unable to preprocess the image");
+	if (!ImageUtil::Preprocess(preprocessedImage, image)) {
+        DAWN_ERROR("Image preprocess failed!");
 		return false;
 	}
-	logger->end();
 	std::vector<float> probabilities;
 	// Forward
-	logger->start("Run", "inference on the image");
 	if (!forward({preprocessedImage, }, probabilities)) {
 		return false;
 	}
-	logger->end();
 	// Postprocess
-	logger->start("Post-process", "the image");
 	tie(output, prob) = postprocess(probabilities, labels);
-	logger->end();
 	return true;
 }
 
 
-bool ImageClassifier::classifyLocalImage(const std::string& imagePath,  std::string &output) {
+bool ImageClassifier::ClassifyLocalImage(const std::string& imagePath,  std::string &output) const {
 	cv::Mat image = cv::imread(imagePath, -1);
 	std::string pred, prob;
 	return infer(image, output);
 }
 
-bool ImageClassifier::classifyImage(const std::string& url, 
-	std::string& output) {
+bool ImageClassifier::ClassifyImage(const std::string& url, std::string& output) const {
 	if (!ready) {
-		logger->error("Image inference model not ready");
+		DAWN_ERROR("Image inference model not ready");
 		return false;
 	}
-
-	logger->start("Download", "image");
+    DAWN_INFO("Running image classification service!");
 	cv::Mat image;
-	if (!download(url.c_str(), image)) {
-		logger->error("Fail to download and assign image to opencv");
+	if (!ImageUtil::Download(image, url.c_str())) {
 		return false;
 	}
-	logger->end();
-	return infer(image, output);
+	if (!infer(image, output)) {
+        return false;
+    }
+    DAWN_INFO("Image classification ran successfully!");
+    return true;
 }
 
 }

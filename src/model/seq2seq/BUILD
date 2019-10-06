@@ -4,5 +4,8 @@ filegroup(
         "*.pth",
 		"*.json",
     ]),
-	visibility = ["//src/lib:__pkg__"],
+	visibility = [
+        "//src/service:__pkg__",
+        "//src/engines/specific:__pkg__"
+    ],
 )

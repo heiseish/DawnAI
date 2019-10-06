@@ -1,0 +1,11 @@
+prefix=/home/heiseish/Projects/Flighty/DawnAI/dep/fmt
+exec_prefix=/home/heiseish/Projects/Flighty/DawnAI/dep/fmt
+libdir=/home/heiseish/Projects/Flighty/DawnAI/dep/fmt/lib
+includedir=/home/heiseish/Projects/Flighty/DawnAI/dep/fmt/include
+
+Name: fmt
+Description: A modern formatting library
+Version: 6.0.0
+Libs: -L${libdir} -lfmt
+Cflags: -I${includedir}
+

@@ -14,8 +14,8 @@
 
 #include "src/utils/Logger.hpp"
 
-#include "Seq2Seq.hpp"
-#include "ImageClassifier.hpp"
+#include "src/service/SequenceToSequence.hpp"
+#include "src/service/ImageClassifier.hpp"
 
 
 
@@ -44,11 +44,12 @@ namespace dawn {
 	public:
 		Seq2SeqServiceImpl() {
 			seq2seq = std::make_unique<Seq2Seq>();
+            seq2seq->Initialize();
 		}
 		Status RespondToText(ServerContext* context, const ConversationInput* request,
 			ConversationResponse* reply) override {
 			std::string output = "";
-			if (!seq2seq->generateReply(request->text(), output)) {
+			if (!seq2seq->GenerateReply(request->text(), output)) {
 				reply->set_state(ConversationResponse_State::ConversationResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
@@ -64,11 +65,12 @@ namespace dawn {
 	public:
 		ImageClassificationServiceImpl() {
 			imageClassifier = std::make_unique<ImageClassifier>();
+            imageClassifier->Initialize();
 		}
 		Status RecognizeImage(ServerContext* context, const ImageRequest* request,
 			ImageResponse* reply) override {
 			std::string output = "";
-			if (!imageClassifier->classifyImage(request->image(), output)) {
+			if (!imageClassifier->ClassifyImage(request->image(), output)) {
 				reply->set_state(ImageResponse_State::ImageResponse_State_MODEL_ERR);
 				return Status::OK;
 			}
@@ -79,13 +81,14 @@ namespace dawn {
 	};
 	class DawnAI {
 	private:
-		std::shared_ptr<Logger> logger;
 		Seq2SeqServiceImpl converse_service;
 		ImageClassificationServiceImpl image_classification_service;
 		std::unique_ptr<Server> server;
+        int32_t mode = 0;
 	public:
-		DawnAI();
-		void listen(std::string);
+		DawnAI() {}
+		void Listen(std::string);
+        void SetMode(int32_t);
 	};
 }
 

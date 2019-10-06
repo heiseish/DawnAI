@@ -9,24 +9,22 @@
 #include "protos/image_classification_service.grpc.pb.h"
 #include "protos/seq2seq_service.grpc.pb.h"
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-
 #include "src/utils/Logger.hpp"
-#include "Seq2Seq.hpp"
-#include "ImageClassifier.hpp"
+#include "src/service/SequenceToSequence.hpp"
+#include "src/service/ImageClassifier.hpp"
 
 namespace dawn{
 
-DawnAI::DawnAI() {
-	logger = std::make_shared<Logger>("Dawn");
+/**
+ * @brief only 1 service at a time.
+ * So either image classification or converse
+ */
+void DawnAI::SetMode(int32_t inputMode) {
+	mode = inputMode;
 }
 
-void DawnAI::listen(std::string PORT) {
-	auto mode = std::getenv("MODE");
-	std::string IPaddr = strcmp(mode, "docker")  == 0 ? "0.0.0.0:" : "127.0.0.1:";
-	std::string server_address(IPaddr + PORT);
+void DawnAI::Listen(std::string addr) {
+	std::string server_address(addr);
 	ServerBuilder builder;
 	ResourceQuota resource_quota;
 	resource_quota.SetMaxThreads(2);
@@ -41,10 +39,11 @@ void DawnAI::listen(std::string PORT) {
 	builder.RegisterService(&image_classification_service);
 	// Finally assemble the server.
 	server = builder.BuildAndStart();
-	logger->info("Listening on " + server_address);
+    DAWN_INFO("Listening on " << server_address);
 	// Wait for the server to shutdown. Note that some other thread must be
 	// responsible for shutting down the server for this call to ever return.
 	server->Wait();
 }
+
 
 }

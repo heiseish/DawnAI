@@ -1,5 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 # This com_google_protobuf repository is required for proto_library rule.
 # It provides the protocol compiler binary (i.e., protoc).
 http_archive(
@@ -45,6 +45,17 @@ load("@build_stack_rules_proto//cpp:deps.bzl", "cpp_proto_library")
 
 cpp_proto_library()
 
+
+git_repository(
+    name = "com_github_nelhage_rules_boost",
+    commit = "76f30649e9156b4a29f6074b856fc29a6046e79d",
+    remote = "https://github.com/nelhage/rules_boost",
+)
+
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+boost_deps()
+
+
 new_local_repository(
     name = "torch",
     path = "dep/torch",
@@ -79,5 +90,17 @@ new_local_repository(
     name = "websocketpp",
     path = "dep/websocketpp",
     build_file = "3rdparty_buildfiles/websocketpp.BUILD",
+)
+
+new_local_repository(
+    name = "fmt",
+    path = "dep/fmt",
+    build_file = "3rdparty_buildfiles/fmt.BUILD",
+)
+
+new_local_repository(
+    name = "gflag",
+    path = "dep/gflag",
+    build_file = "3rdparty_buildfiles/gflag.BUILD",
 )
 

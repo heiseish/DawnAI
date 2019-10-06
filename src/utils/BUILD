@@ -1,29 +1,37 @@
 cc_library(
-    name = "ImageUtils",
-    srcs = ["ImageUtils.cpp"],
-    hdrs = ["ImageUtils.hpp"],
+    name = "ImageUtil",
+    srcs = ["Image.cpp"],
+    hdrs = ["Image.hpp"],
 	deps = [
 		"@curl//:curl",
 		"@opencv4//:opencv4",
+        "//src/utils:Logger",
 	],
-    visibility = ["//src/lib:__pkg__"],
+    visibility = [
+        "//src/lib:__pkg__",
+        "//src/service:__pkg__"
+    ],
 )
 cc_library(
-    name = "StringUtils",
-    srcs = ["StringUtils.cpp"],
-    hdrs = ["StringUtils.hpp"],
+    name = "StringUtil",
+    srcs = ["String.cpp"],
+    hdrs = ["String.hpp"],
 	deps = [
-		"@json//:json",
+        "//src/utils:Logger",
 	],
-    visibility = ["//src/lib:__pkg__"],
+    visibility = [
+        "//src/lib:__pkg__",
+        "//src/engines/specific:__pkg__",
+        "//src/service:__pkg__"
+    ],
 )
 
 cc_library(
     name = "Logger",
-    srcs = ["Logger.cpp"],
     hdrs = ["Logger.hpp"],
-	deps = [
-		"@spdlog//:spdlog",
-	],
-    visibility = ["//src/lib:__pkg__"],
+    visibility = [
+        "//src/lib:__pkg__",
+        "//src/engines/specific:__pkg__",
+        "//src/service:__pkg__"
+    ],
 )
