@@ -8,14 +8,13 @@ PROTO_IN=protos/*.proto
 release:
 	sh scripts/build.sh
 docker-build:
-	sudo docker build -t heiseish/dawnai:v1.0.0 -f Dockerfile .
+	sudo docker build -t heiseish/dawn:1.0.0 -f Dockerfile .
 
 docker-run:
-	sudo docker run --rm \
-		-it -e "TERM=xterm-256color" \
+	sudo docker run --rm -it \
 		-m=4g \
   		-p 8080:8080 \
-  		heiseish/dawnai:v1.0.0
+  		heiseish/dawn:1.0.0
 opencv:
 	sh scripts/install_opencv.sh
 grpc:

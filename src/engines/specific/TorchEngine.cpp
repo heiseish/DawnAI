@@ -15,13 +15,13 @@ namespace dawn {
 bool TorchEngine::Initialize(const InferenceResource& resource) {	
     try {
         if (!resource.count(INFERENCE_ENGINE_MODEL_PATH)) {
-            DAWN_ERROR("Path not present in the InferenceResource!");
+            DAWN_ERROR << "Path not present in the InferenceResource!\n";
             return false;
         }
         auto model_path = boost::any_cast<std::string>(resource.at(INFERENCE_ENGINE_MODEL_PATH));
         model = std::make_shared<torch::jit::script::Module>(torch::jit::load(model_path));
     } catch (const std::exception& e) {
-        DAWN_ERROR(e.what());
+        DAWN_ERROR << e.what() << std::endl;
         return false;
     } catch (...) {
         return false;
@@ -32,7 +32,7 @@ bool TorchEngine::Initialize(const InferenceResource& resource) {
 
 
 bool TorchEngine::Forward(InferenceOutput& ouput, const InferenceInput& input) const {
-	DAWN_ERROR("Not implemented");
+	DAWN_ERROR << "Not implemented\n";
     return false;
 }
 
@@ -45,7 +45,7 @@ bool TorchEngine::Forward(c10::IValue& output, const torch::jit::Stack& input) c
 		output = model->forward(input);
         return true;
     } catch (const std::exception& e) {
-        DAWN_ERROR(e.what());
+        DAWN_ERROR << e.what() << std::endl;
         return false;
 	} catch(...) {
 		return false;

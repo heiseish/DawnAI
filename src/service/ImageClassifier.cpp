@@ -44,11 +44,11 @@ bool ImageClassifier::Initialize(const std::string labelPath, const std::string 
     resource.emplace(INFERENCE_ENGINE_MODEL_PATH, modelPath);
 	model = std::make_unique<TorchEngine>(169);
     if (!model->Initialize(resource)) {
-        DAWN_ERROR("Failed to load torch engine for image classifier");
+        DAWN_ERROR << "Failed to load torch engine for image classifier\n";
         return false;
     } 
     ready = true;
-    DAWN_INFO("Image classifier is loadded up successfully!");
+    DAWN_INFO << "Image classifier is loadded up successfully!\n";
     return true;
 }
 
@@ -113,7 +113,7 @@ bool ImageClassifier::forward(std::vector<cv::Mat> images, std::vector<float>& o
     torch::jit::Stack inputBlob { tensor };
     // ------------------- Inference ------------------------
 	if (!model->Forward(outputBlob, inputBlob)) {
-        DAWN_ERROR("Image classifier inference failed");
+        DAWN_ERROR << "Image classifier inference failed\n";
 		return false;
 	}
     // -------------------- get output tensor -----------------------
@@ -146,14 +146,14 @@ const std::vector<std::string>& labels) const {
 
 bool ImageClassifier::infer(cv::Mat image, std::string& output) const {
 	if (image.empty()) {
-		DAWN_ERROR("Cannot read image!");
+		DAWN_ERROR << "Cannot read image!\n";
 		return false;
 	}
 	std::string prob = "0.0";
 	cv::Mat preprocessedImage;
 	// Preprocess image
 	if (!ImageUtil::Preprocess(preprocessedImage, image)) {
-        DAWN_ERROR("Image preprocess failed!");
+        DAWN_ERROR << "Image preprocess failed!\n";
 		return false;
 	}
 	std::vector<float> probabilities;
@@ -175,10 +175,10 @@ bool ImageClassifier::ClassifyLocalImage(const std::string& imagePath,  std::str
 
 bool ImageClassifier::ClassifyImage(const std::string& url, std::string& output) const {
 	if (!ready) {
-		DAWN_ERROR("Image inference model not ready");
+		DAWN_ERROR << "Image inference model not ready\n";
 		return false;
 	}
-    DAWN_INFO("Running image classification service!");
+    DAWN_INFO << "Running image classification service!\n";
 	cv::Mat image;
 	if (!ImageUtil::Download(image, url.c_str())) {
 		return false;
@@ -186,7 +186,7 @@ bool ImageClassifier::ClassifyImage(const std::string& url, std::string& output)
 	if (!infer(image, output)) {
         return false;
     }
-    DAWN_INFO("Image classification ran successfully!");
+    DAWN_INFO << "Image classification ran successfully!\n";
     return true;
 }
 

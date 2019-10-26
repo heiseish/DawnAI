@@ -4,7 +4,9 @@ cc_library(
     hdrs = ["DawnAI.hpp"],
     visibility = ["//src:__pkg__"],
 	deps = [
-		"//protos:grpc_service_cpp_proto",
+        "@grpc//:grpc",
+		"//protos:ImageClassificationGRPC",
+        "//protos:Sequence2SequenceGRPC",
 		"//src/service:ImageClassifier",
 		"//src/service:Seq2Seq",
 		"//src/utils:Logger",

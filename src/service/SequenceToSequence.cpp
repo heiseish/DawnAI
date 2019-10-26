@@ -35,7 +35,7 @@ bool Seq2Seq::Initialize(const std::string& path, const std::string& word2indexP
 	_engine = std::make_unique<TorchEngine>(69);
     
     if (!_engine->Initialize(resource)) {
-        DAWN_ERROR("Failed to load torch engine");
+        DAWN_ERROR << "Failed to load torch engine\n";
         ready = false;
     }
     ready = true;
@@ -53,7 +53,7 @@ bool Seq2Seq::Initialize(const std::string& path, const std::string& word2indexP
 		auto& value = item.value();
 		index2word[std::stoll(key)] = value;
 	}
-    DAWN_INFO("Sequence2Sequence service loaded successfully!");
+    DAWN_INFO << "Sequence2Sequence service loaded successfully!\n";
     return true;
 }
 
@@ -69,7 +69,7 @@ bool Seq2Seq::indexesFromSentence(std::vector<int64_t>& output, const std::strin
 	output.resize(out.size());
 	for(int i = 0; i < (int) out.size(); ++i) {
         if (!word2index.count(out[i])) {
-            DAWN_ERROR("Word not in dictionary");
+            DAWN_ERROR << "Word not in dictionary\n";
             return false;
         }
 		output[i] = word2index.at(out[i]);
@@ -83,7 +83,7 @@ bool Seq2Seq::sentenceFromIndexes(std::string& output, const std::vector<int64_t
 	for (auto &val : indexes) {
 		if (val == EOS_token) break; //EOS
         if (!index2word.count(val)) {
-            DAWN_ERROR("Index not present in dictionary");
+            DAWN_ERROR << "Index not present in dictionary\n";
             return false;
         }
 		output += index2word[val];
@@ -96,9 +96,9 @@ bool Seq2Seq::sentenceFromIndexes(std::string& output, const std::vector<int64_t
  *  @brief generate reply using sequence to sequence torch engine
  */
 bool Seq2Seq::GenerateReply(const std::string& input, std::string& output) {
-    DAWN_INFO("Running Sequence to Sequence");
+    DAWN_INFO << "Running Sequence to Sequence\n";
 	if (!ready) {
-        DAWN_ERROR("Sequence to sequence service is not ready.")
+        DAWN_ERROR << "Sequence to sequence service is not ready.\n";
 		return false;
 	}
     // ------------------------------------ Preprocess --------------------------------
@@ -121,7 +121,7 @@ bool Seq2Seq::GenerateReply(const std::string& input, std::string& output) {
 	const torch::jit::Stack model_input { inputSequence, lengthTensor, MAX_LENGTH};
 	// ----------------------------------- Forward ----------------------------------
 	if (!_engine->Forward(output_blob, model_input)) {
-        DAWN_ERROR("Torch engine inference failed");
+        DAWN_ERROR << "Torch engine inference failed";
 		return false;
 	}
     // ----------------------------------- Post process -----------------------------------
@@ -140,10 +140,10 @@ bool Seq2Seq::GenerateReply(const std::string& input, std::string& output) {
     // -------------------------------------------------------------------------------
     
 	if (!sentenceFromIndexes(output, model_output)) {
-        DAWN_ERROR("Failed to parse index to string");
+        DAWN_ERROR << "Failed to parse index to string\n";
         return false;
     }
-    DAWN_INFO("Sequence to sequence ran successfully");
+    DAWN_INFO << "Sequence to sequence ran successfully\n";
 	return  true;
 }
 

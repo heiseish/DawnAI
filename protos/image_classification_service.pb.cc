@@ -5,65 +5,58 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-
 namespace ImageClassificationServiceRPC {
 class ImageRequestDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ImageRequest> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ImageRequest> _instance;
 } _ImageRequest_default_instance_;
 class ImageResponseDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ImageResponse> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ImageResponse> _instance;
 } _ImageResponse_default_instance_;
 }  // namespace ImageClassificationServiceRPC
-static void InitDefaultsImageRequest_image_5fclassification_5fservice_2eproto() {
+static void InitDefaultsscc_info_ImageRequest_image_5fclassification_5fservice_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::ImageClassificationServiceRPC::_ImageRequest_default_instance_;
     new (ptr) ::ImageClassificationServiceRPC::ImageRequest();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::ImageClassificationServiceRPC::ImageRequest::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ImageRequest_image_5fclassification_5fservice_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsImageRequest_image_5fclassification_5fservice_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ImageRequest_image_5fclassification_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ImageRequest_image_5fclassification_5fservice_2eproto}, {}};
 
-static void InitDefaultsImageResponse_image_5fclassification_5fservice_2eproto() {
+static void InitDefaultsscc_info_ImageResponse_image_5fclassification_5fservice_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::ImageClassificationServiceRPC::_ImageResponse_default_instance_;
     new (ptr) ::ImageClassificationServiceRPC::ImageResponse();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::ImageClassificationServiceRPC::ImageResponse::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ImageResponse_image_5fclassification_5fservice_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsImageResponse_image_5fclassification_5fservice_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ImageResponse_image_5fclassification_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ImageResponse_image_5fclassification_5fservice_2eproto}, {}};
 
-void InitDefaults_image_5fclassification_5fservice_2eproto() {
-  ::google::protobuf::internal::InitSCC(&scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_image_5fclassification_5fservice_2eproto[2];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_image_5fclassification_5fservice_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_image_5fclassification_5fservice_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata_image_5fclassification_5fservice_2eproto[2];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors_image_5fclassification_5fservice_2eproto[1];
-constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_image_5fclassification_5fservice_2eproto = nullptr;
-
-const ::google::protobuf::uint32 TableStruct_image_5fclassification_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_image_5fclassification_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ImageClassificationServiceRPC::ImageRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -80,23 +73,17 @@ const ::google::protobuf::uint32 TableStruct_image_5fclassification_5fservice_2e
   PROTOBUF_FIELD_OFFSET(::ImageClassificationServiceRPC::ImageResponse, state_),
   PROTOBUF_FIELD_OFFSET(::ImageClassificationServiceRPC::ImageResponse, text_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::ImageClassificationServiceRPC::ImageRequest)},
   { 7, -1, sizeof(::ImageClassificationServiceRPC::ImageResponse)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::ImageClassificationServiceRPC::_ImageRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::ImageClassificationServiceRPC::_ImageResponse_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ImageClassificationServiceRPC::_ImageRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ImageClassificationServiceRPC::_ImageResponse_default_instance_),
 };
 
-::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_image_5fclassification_5fservice_2eproto = {
-  {}, AddDescriptors_image_5fclassification_5fservice_2eproto, "image_classification_service.proto", schemas,
-  file_default_instances, TableStruct_image_5fclassification_5fservice_2eproto::offsets,
-  file_level_metadata_image_5fclassification_5fservice_2eproto, 2, file_level_enum_descriptors_image_5fclassification_5fservice_2eproto, file_level_service_descriptors_image_5fclassification_5fservice_2eproto,
-};
-
-const char descriptor_table_protodef_image_5fclassification_5fservice_2eproto[] =
+const char descriptor_table_protodef_image_5fclassification_5fservice_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\"image_classification_service.proto\022\035Im"
   "ageClassificationServiceRPC\"/\n\014ImageRequ"
   "est\022\020\n\010trans_id\030\001 \001(\t\022\r\n\005image\030\002 \001(\t\"\244\001\n"
@@ -109,24 +96,26 @@ const char descriptor_table_protodef_image_5fclassification_5fservice_2eproto[] 
   "eRPC.ImageRequest\032,.ImageClassificationS"
   "erviceRPC.ImageResponseB\006\242\002\003RTGb\006proto3"
   ;
-::google::protobuf::internal::DescriptorTable descriptor_table_image_5fclassification_5fservice_2eproto = {
-  false, InitDefaults_image_5fclassification_5fservice_2eproto, 
-  descriptor_table_protodef_image_5fclassification_5fservice_2eproto,
-  "image_classification_service.proto", &assign_descriptors_table_image_5fclassification_5fservice_2eproto, 439,
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_image_5fclassification_5fservice_2eproto_deps[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_image_5fclassification_5fservice_2eproto_sccs[2] = {
+  &scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base,
+  &scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_image_5fclassification_5fservice_2eproto_once;
+static bool descriptor_table_image_5fclassification_5fservice_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_image_5fclassification_5fservice_2eproto = {
+  &descriptor_table_image_5fclassification_5fservice_2eproto_initialized, descriptor_table_protodef_image_5fclassification_5fservice_2eproto, "image_classification_service.proto", 439,
+  &descriptor_table_image_5fclassification_5fservice_2eproto_once, descriptor_table_image_5fclassification_5fservice_2eproto_sccs, descriptor_table_image_5fclassification_5fservice_2eproto_deps, 2, 0,
+  schemas, file_default_instances, TableStruct_image_5fclassification_5fservice_2eproto::offsets,
+  file_level_metadata_image_5fclassification_5fservice_2eproto, 2, file_level_enum_descriptors_image_5fclassification_5fservice_2eproto, file_level_service_descriptors_image_5fclassification_5fservice_2eproto,
 };
 
-void AddDescriptors_image_5fclassification_5fservice_2eproto() {
-  static constexpr ::google::protobuf::internal::InitFunc deps[1] =
-  {
-  };
- ::google::protobuf::internal::AddDescriptors(&descriptor_table_image_5fclassification_5fservice_2eproto, deps, 0);
-}
-
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_image_5fclassification_5fservice_2eproto = []() { AddDescriptors_image_5fclassification_5fservice_2eproto(); return true; }();
+static bool dynamic_init_dummy_image_5fclassification_5fservice_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_image_5fclassification_5fservice_2eproto), true);
 namespace ImageClassificationServiceRPC {
-const ::google::protobuf::EnumDescriptor* ImageResponse_State_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&assign_descriptors_table_image_5fclassification_5fservice_2eproto);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ImageResponse_State_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_image_5fclassification_5fservice_2eproto);
   return file_level_enum_descriptors_image_5fclassification_5fservice_2eproto[0];
 }
 bool ImageResponse_State_IsValid(int value) {
@@ -140,53 +129,47 @@ bool ImageResponse_State_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const ImageResponse_State ImageResponse::SUCCESS;
-const ImageResponse_State ImageResponse::MODEL_ERR;
-const ImageResponse_State ImageResponse::UNKNOWN;
-const ImageResponse_State ImageResponse::State_MIN;
-const ImageResponse_State ImageResponse::State_MAX;
-const int ImageResponse::State_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr ImageResponse_State ImageResponse::SUCCESS;
+constexpr ImageResponse_State ImageResponse::MODEL_ERR;
+constexpr ImageResponse_State ImageResponse::UNKNOWN;
+constexpr ImageResponse_State ImageResponse::State_MIN;
+constexpr ImageResponse_State ImageResponse::State_MAX;
+constexpr int ImageResponse::State_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
 void ImageRequest::InitAsDefaultInstance() {
 }
-class ImageRequest::HasBitSetters {
+class ImageRequest::_Internal {
  public:
 };
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ImageRequest::kTransIdFieldNumber;
-const int ImageRequest::kImageFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
 ImageRequest::ImageRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:ImageClassificationServiceRPC.ImageRequest)
 }
 ImageRequest::ImageRequest(const ImageRequest& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  trans_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.trans_id().size() > 0) {
-    trans_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
+  trans_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_trans_id().empty()) {
+    trans_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
   }
-  image_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.image().size() > 0) {
-    image_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.image_);
+  image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_image().empty()) {
+    image_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.image_);
   }
   // @@protoc_insertion_point(copy_constructor:ImageClassificationServiceRPC.ImageRequest)
 }
 
 void ImageRequest::SharedCtor() {
-  ::google::protobuf::internal::InitSCC(
-      &scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base);
-  trans_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  image_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base);
+  trans_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 ImageRequest::~ImageRequest() {
@@ -195,224 +178,100 @@ ImageRequest::~ImageRequest() {
 }
 
 void ImageRequest::SharedDtor() {
-  trans_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  image_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  trans_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  image_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void ImageRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const ImageRequest& ImageRequest::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ImageRequest_image_5fclassification_5fservice_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void ImageRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:ImageClassificationServiceRPC.ImageRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  trans_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  image_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  trans_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  image_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   _internal_metadata_.Clear();
 }
 
-#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* ImageRequest::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<ImageRequest*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* ImageRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // string trans_id = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        ctx->extra_parse_data().SetFieldName("ImageClassificationServiceRPC.ImageRequest.trans_id");
-        object = msg->mutable_trans_id();
-        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
-          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
-          goto string_till_end;
-        }
-        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
-        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
-        ptr += size;
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_trans_id(), ptr, ctx, "ImageClassificationServiceRPC.ImageRequest.trans_id");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // string image = 2;
-      case 2: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 18) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        ctx->extra_parse_data().SetFieldName("ImageClassificationServiceRPC.ImageRequest.image");
-        object = msg->mutable_image();
-        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
-          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
-          goto string_till_end;
-        }
-        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
-        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
-        ptr += size;
-        break;
-      }
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_image(), ptr, ctx, "ImageClassificationServiceRPC.ImageRequest.image");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
-  return ptr;
-string_till_end:
-  static_cast<::std::string*>(object)->clear();
-  static_cast<::std::string*>(object)->reserve(size);
-  goto len_delim_till_end;
-len_delim_till_end:
-  return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
-                               {parser_till_end, object}, size);
-}
-#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-bool ImageRequest::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ImageClassificationServiceRPC.ImageRequest)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string trans_id = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_trans_id()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageClassificationServiceRPC.ImageRequest.trans_id"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // string image = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (18 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_image()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->image().data(), static_cast<int>(this->image().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageClassificationServiceRPC.ImageRequest.image"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
 success:
-  // @@protoc_insertion_point(parse_success:ImageClassificationServiceRPC.ImageRequest)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:ImageClassificationServiceRPC.ImageRequest)
-  return false;
-#undef DO_
-}
-#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-
-void ImageRequest::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ImageClassificationServiceRPC.ImageRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string trans_id = 1;
-  if (this->trans_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageClassificationServiceRPC.ImageRequest.trans_id");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->trans_id(), output);
-  }
-
-  // string image = 2;
-  if (this->image().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->image().data(), static_cast<int>(this->image().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageClassificationServiceRPC.ImageRequest.image");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->image(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:ImageClassificationServiceRPC.ImageRequest)
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-::google::protobuf::uint8* ImageRequest::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* ImageRequest::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:ImageClassificationServiceRPC.ImageRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // string trans_id = 1;
   if (this->trans_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_trans_id().data(), static_cast<int>(this->_internal_trans_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "ImageClassificationServiceRPC.ImageRequest.trans_id");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->trans_id(), target);
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_trans_id(), target);
   }
 
   // string image = 2;
   if (this->image().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->image().data(), static_cast<int>(this->image().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_image().data(), static_cast<int>(this->_internal_image().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "ImageClassificationServiceRPC.ImageRequest.image");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->image(), target);
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_image(), target);
   }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ImageClassificationServiceRPC.ImageRequest)
   return target;
@@ -422,43 +281,42 @@ size_t ImageRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:ImageClassificationServiceRPC.ImageRequest)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // string trans_id = 1;
   if (this->trans_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->trans_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_trans_id());
   }
 
   // string image = 2;
   if (this->image().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->image());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_image());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void ImageRequest::MergeFrom(const ::google::protobuf::Message& from) {
+void ImageRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:ImageClassificationServiceRPC.ImageRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const ImageRequest* source =
-      ::google::protobuf::DynamicCastToGenerated<ImageRequest>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ImageRequest>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:ImageClassificationServiceRPC.ImageRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:ImageClassificationServiceRPC.ImageRequest)
     MergeFrom(*source);
@@ -469,20 +327,20 @@ void ImageRequest::MergeFrom(const ImageRequest& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ImageClassificationServiceRPC.ImageRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.trans_id().size() > 0) {
 
-    trans_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
+    trans_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
   }
   if (from.image().size() > 0) {
 
-    image_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.image_);
+    image_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.image_);
   }
 }
 
-void ImageRequest::CopyFrom(const ::google::protobuf::Message& from) {
+void ImageRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:ImageClassificationServiceRPC.ImageRequest)
   if (&from == this) return;
   Clear();
@@ -500,22 +358,17 @@ bool ImageRequest::IsInitialized() const {
   return true;
 }
 
-void ImageRequest::Swap(ImageRequest* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void ImageRequest::InternalSwap(ImageRequest* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  trans_id_.Swap(&other->trans_id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  trans_id_.Swap(&other->trans_id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  image_.Swap(&other->image_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  image_.Swap(&other->image_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
 }
 
-::google::protobuf::Metadata ImageRequest::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_image_5fclassification_5fservice_2eproto);
-  return ::file_level_metadata_image_5fclassification_5fservice_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata ImageRequest::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -523,42 +376,35 @@ void ImageRequest::InternalSwap(ImageRequest* other) {
 
 void ImageResponse::InitAsDefaultInstance() {
 }
-class ImageResponse::HasBitSetters {
+class ImageResponse::_Internal {
  public:
 };
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ImageResponse::kTransIdFieldNumber;
-const int ImageResponse::kStateFieldNumber;
-const int ImageResponse::kTextFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
 ImageResponse::ImageResponse()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:ImageClassificationServiceRPC.ImageResponse)
 }
 ImageResponse::ImageResponse(const ImageResponse& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  trans_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.trans_id().size() > 0) {
-    trans_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
+  trans_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_trans_id().empty()) {
+    trans_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
   }
-  text_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.text().size() > 0) {
-    text_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.text_);
+  text_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_text().empty()) {
+    text_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.text_);
   }
   state_ = from.state_;
   // @@protoc_insertion_point(copy_constructor:ImageClassificationServiceRPC.ImageResponse)
 }
 
 void ImageResponse::SharedCtor() {
-  ::google::protobuf::internal::InitSCC(
-      &scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base);
-  trans_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  text_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base);
+  trans_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  text_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   state_ = 0;
 }
 
@@ -568,259 +414,116 @@ ImageResponse::~ImageResponse() {
 }
 
 void ImageResponse::SharedDtor() {
-  trans_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  text_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  trans_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  text_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void ImageResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const ImageResponse& ImageResponse::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ImageResponse_image_5fclassification_5fservice_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void ImageResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:ImageClassificationServiceRPC.ImageResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  trans_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  text_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  trans_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  text_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   state_ = 0;
   _internal_metadata_.Clear();
 }
 
-#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* ImageResponse::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<ImageResponse*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* ImageResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // string trans_id = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        ctx->extra_parse_data().SetFieldName("ImageClassificationServiceRPC.ImageResponse.trans_id");
-        object = msg->mutable_trans_id();
-        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
-          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
-          goto string_till_end;
-        }
-        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
-        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
-        ptr += size;
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_trans_id(), ptr, ctx, "ImageClassificationServiceRPC.ImageResponse.trans_id");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .ImageClassificationServiceRPC.ImageResponse.State state = 2;
-      case 2: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 16) goto handle_unusual;
-        ::google::protobuf::uint64 val = ::google::protobuf::internal::ReadVarint(&ptr);
-        msg->set_state(static_cast<::ImageClassificationServiceRPC::ImageResponse_State>(val));
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        break;
-      }
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+          _internal_set_state(static_cast<::ImageClassificationServiceRPC::ImageResponse_State>(val));
+        } else goto handle_unusual;
+        continue;
       // string text = 3;
-      case 3: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 26) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        ctx->extra_parse_data().SetFieldName("ImageClassificationServiceRPC.ImageResponse.text");
-        object = msg->mutable_text();
-        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
-          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
-          goto string_till_end;
-        }
-        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
-        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
-        ptr += size;
-        break;
-      }
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_text(), ptr, ctx, "ImageClassificationServiceRPC.ImageResponse.text");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
-  return ptr;
-string_till_end:
-  static_cast<::std::string*>(object)->clear();
-  static_cast<::std::string*>(object)->reserve(size);
-  goto len_delim_till_end;
-len_delim_till_end:
-  return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
-                               {parser_till_end, object}, size);
-}
-#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-bool ImageResponse::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ImageClassificationServiceRPC.ImageResponse)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string trans_id = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_trans_id()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageClassificationServiceRPC.ImageResponse.trans_id"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .ImageClassificationServiceRPC.ImageResponse.State state = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (16 & 0xFF)) {
-          int value = 0;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_state(static_cast< ::ImageClassificationServiceRPC::ImageResponse_State >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // string text = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (26 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_text()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->text().data(), static_cast<int>(this->text().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageClassificationServiceRPC.ImageResponse.text"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
 success:
-  // @@protoc_insertion_point(parse_success:ImageClassificationServiceRPC.ImageResponse)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:ImageClassificationServiceRPC.ImageResponse)
-  return false;
-#undef DO_
-}
-#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-
-void ImageResponse::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ImageClassificationServiceRPC.ImageResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string trans_id = 1;
-  if (this->trans_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageClassificationServiceRPC.ImageResponse.trans_id");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->trans_id(), output);
-  }
-
-  // .ImageClassificationServiceRPC.ImageResponse.State state = 2;
-  if (this->state() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      2, this->state(), output);
-  }
-
-  // string text = 3;
-  if (this->text().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->text().data(), static_cast<int>(this->text().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageClassificationServiceRPC.ImageResponse.text");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->text(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:ImageClassificationServiceRPC.ImageResponse)
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-::google::protobuf::uint8* ImageResponse::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* ImageResponse::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:ImageClassificationServiceRPC.ImageResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // string trans_id = 1;
   if (this->trans_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->trans_id().data(), static_cast<int>(this->trans_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_trans_id().data(), static_cast<int>(this->_internal_trans_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "ImageClassificationServiceRPC.ImageResponse.trans_id");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->trans_id(), target);
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_trans_id(), target);
   }
 
   // .ImageClassificationServiceRPC.ImageResponse.State state = 2;
   if (this->state() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      2, this->state(), target);
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_state(), target);
   }
 
   // string text = 3;
   if (this->text().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->text().data(), static_cast<int>(this->text().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_text().data(), static_cast<int>(this->_internal_text().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "ImageClassificationServiceRPC.ImageResponse.text");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->text(), target);
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_text(), target);
   }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ImageClassificationServiceRPC.ImageResponse)
   return target;
@@ -830,49 +533,48 @@ size_t ImageResponse::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:ImageClassificationServiceRPC.ImageResponse)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // string trans_id = 1;
   if (this->trans_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->trans_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_trans_id());
   }
 
   // string text = 3;
   if (this->text().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->text());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_text());
   }
 
   // .ImageClassificationServiceRPC.ImageResponse.State state = 2;
   if (this->state() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void ImageResponse::MergeFrom(const ::google::protobuf::Message& from) {
+void ImageResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:ImageClassificationServiceRPC.ImageResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const ImageResponse* source =
-      ::google::protobuf::DynamicCastToGenerated<ImageResponse>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ImageResponse>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:ImageClassificationServiceRPC.ImageResponse)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:ImageClassificationServiceRPC.ImageResponse)
     MergeFrom(*source);
@@ -883,23 +585,23 @@ void ImageResponse::MergeFrom(const ImageResponse& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ImageClassificationServiceRPC.ImageResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.trans_id().size() > 0) {
 
-    trans_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
+    trans_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.trans_id_);
   }
   if (from.text().size() > 0) {
 
-    text_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.text_);
+    text_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.text_);
   }
   if (from.state() != 0) {
-    set_state(from.state());
+    _internal_set_state(from._internal_state());
   }
 }
 
-void ImageResponse::CopyFrom(const ::google::protobuf::Message& from) {
+void ImageResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:ImageClassificationServiceRPC.ImageResponse)
   if (&from == this) return;
   Clear();
@@ -917,38 +619,31 @@ bool ImageResponse::IsInitialized() const {
   return true;
 }
 
-void ImageResponse::Swap(ImageResponse* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void ImageResponse::InternalSwap(ImageResponse* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  trans_id_.Swap(&other->trans_id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  trans_id_.Swap(&other->trans_id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  text_.Swap(&other->text_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  text_.Swap(&other->text_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(state_, other->state_);
 }
 
-::google::protobuf::Metadata ImageResponse::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_image_5fclassification_5fservice_2eproto);
-  return ::file_level_metadata_image_5fclassification_5fservice_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata ImageResponse::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace ImageClassificationServiceRPC
-namespace google {
-namespace protobuf {
+PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::ImageClassificationServiceRPC::ImageRequest* Arena::CreateMaybeMessage< ::ImageClassificationServiceRPC::ImageRequest >(Arena* arena) {
   return Arena::CreateInternal< ::ImageClassificationServiceRPC::ImageRequest >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ImageClassificationServiceRPC::ImageResponse* Arena::CreateMaybeMessage< ::ImageClassificationServiceRPC::ImageResponse >(Arena* arena) {
   return Arena::CreateInternal< ::ImageClassificationServiceRPC::ImageResponse >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 #include <google/protobuf/port_undef.inc>

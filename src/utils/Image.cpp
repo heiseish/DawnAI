@@ -71,7 +71,7 @@ bool ImageUtil::Preprocess(cv::Mat& output, cv::Mat image, int newHeight, int ne
         // 4. Subtract mean and divide by std
         output = __normalize_mean_std(output, mean, std);
     } catch (const std::exception& e) {
-        DAWN_ERROR(e.what());
+        DAWN_ERROR << e.what() << std::endl;
         return false;
 	} catch(...) {
 		return false;
