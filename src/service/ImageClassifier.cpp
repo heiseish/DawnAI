@@ -109,15 +109,18 @@ bool ImageClassifier::forward(std::vector<cv::Mat> images, std::vector<float>& o
 	if (!__convert_images_to_tensor(images, tensor)) {
 		return false;
 	}
-    c10::IValue outputBlob;
-    torch::jit::Stack inputBlob { tensor };
+    InferenceOutput<c10::IValue> outputBlob;
+    InferenceInput<c10::IValue> inputBlob;
+    std::vector<c10::IValue> inputVec;
+    inputVec.emplace_back(std::move(tensor));
+    inputBlob.emplace("0", std::move(inputVec));
     // ------------------- Inference ------------------------
 	if (!model->Forward(outputBlob, inputBlob)) {
         DAWN_ERROR << "Image classifier inference failed\n";
 		return false;
 	}
     // -------------------- get output tensor -----------------------
-    auto outputTensor = outputBlob.toTensor();
+    auto outputTensor = outputBlob.begin()->second[0].toTensor();
     int ndim = outputTensor.ndimension();
     size_t totalSize = 1;
     auto sizes = outputTensor.sizes();

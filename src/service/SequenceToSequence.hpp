@@ -22,7 +22,7 @@ namespace dawn {
 
 class Seq2Seq {
 private:
-	std::unique_ptr<TorchEngine> _engine;
+	std::unique_ptr<InferenceEngine<c10::IValue, c10::IValue>> _engine;
     std::unordered_map<std::string, int64_t> word2index;
 	std::unordered_map<int64_t, std::string> index2word;
     static const int PAD_token = 0;  // Used for padding short sentences

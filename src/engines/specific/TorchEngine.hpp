@@ -20,17 +20,15 @@ namespace dawn {
 
 
 
-class TorchEngine : public InferenceEngine {
+class TorchEngine : public InferenceEngine<c10::IValue, c10::IValue>  {
 public:
     TorchEngine(int32_t id) : InferenceEngine(id) {}
     ~TorchEngine() {}
     bool Initialize(const InferenceResource&) override;
-    bool Forward( InferenceOutput& ouput, const InferenceInput& input) const override;
-    bool Forward( c10::IValue& ouput, const torch::jit::Stack& input) const;
+    bool Forward( InferenceOutput<c10::IValue>& ouput, const InferenceInput<c10::IValue>& input) const;
     
 private:
     int _idx = 0;
-    // bool postProcess(InferenceOutput& ouput, const torch::Tensor model_output) const;
     std::shared_ptr<torch::jit::script::Module> model;
 	torch::NoGradGuard noGrad;
 

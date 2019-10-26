@@ -17,5 +17,5 @@ RUN chmod +x bazel-1.1.0-installer-linux-x86_64.sh && \
 COPY dep dep
 COPY src src
 RUN /bin/sh build.sh
-CMD ["/bin/sh", "run.sh"]
+ENTRYPOINT ["./bazel-bin/src/server"]
 EXPOSE 8080

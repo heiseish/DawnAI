@@ -1,0 +1,4 @@
+bazel-bin/
+bazel-DawnAI/
+bazel-out/
+bazel-testlogs/

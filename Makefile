@@ -37,6 +37,6 @@ bazel:
 		--incompatible_depset_is_not_iterable=false \
     	--jobs 8
 bazel-run:
-	PORT=8080 MODE=local bazel run //src:server \
+	bazel run //src:server \
 		--incompatible_depset_is_not_iterable=false \
     	--jobs 8

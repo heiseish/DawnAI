@@ -12,7 +12,7 @@
 
 namespace dawn {
 
-bool TorchEngine::Initialize(const InferenceResource& resource) {	
+bool TorchEngine::Initialize(const InferenceResource& resource)  {	
     try {
         if (!resource.count(INFERENCE_ENGINE_MODEL_PATH)) {
             DAWN_ERROR << "Path not present in the InferenceResource!\n";
@@ -30,19 +30,17 @@ bool TorchEngine::Initialize(const InferenceResource& resource) {
 }
 
 
-
-bool TorchEngine::Forward(InferenceOutput& ouput, const InferenceInput& input) const {
-	DAWN_ERROR << "Not implemented\n";
-    return false;
-}
-
 /**
  * @brief Torch engine doesn't have input name due to script tracing
  */
-bool TorchEngine::Forward(c10::IValue& output, const torch::jit::Stack& input) const {
+bool TorchEngine::Forward(InferenceOutput<c10::IValue>& output, const InferenceInput<c10::IValue>& input) const {
 	try {
         torch::NoGradGuard noGrad;
-		output = model->forward(input);
+        output.clear();
+        auto tempOutput =  model->forward(input.begin()->second);
+        std::vector<c10::IValue> outputStore;
+        outputStore.emplace_back(std::move(tempOutput));
+		output.emplace("0", std::move(outputStore));
         return true;
     } catch (const std::exception& e) {
         DAWN_ERROR << e.what() << std::endl;

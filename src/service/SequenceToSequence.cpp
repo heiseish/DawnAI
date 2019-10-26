@@ -114,32 +114,32 @@ bool Seq2Seq::GenerateReply(const std::string& input, std::string& output) {
 	auto inputSequence = torch::from_blob(indexes.data(), { length, 1 }, options);
     std::vector<int64_t> lengthVector { length };
 	auto lengthTensor = torch::from_blob(lengthVector.data(), { 1 } , options);
-    
-
 	// ----------------------------- Create inference input ---------------------------
-    c10::IValue output_blob;
-	const torch::jit::Stack model_input { inputSequence, lengthTensor, MAX_LENGTH};
+    InferenceOutput<c10::IValue> outputBlob;
+	torch::jit::Stack modelInputValue { inputSequence, lengthTensor, MAX_LENGTH};
+    InferenceInput<c10::IValue> modelInput;
+    modelInput.emplace("1", std::move(modelInputValue));
 	// ----------------------------------- Forward ----------------------------------
-	if (!_engine->Forward(output_blob, model_input)) {
+	if (!_engine->Forward(outputBlob, modelInput)) {
         DAWN_ERROR << "Torch engine inference failed";
 		return false;
 	}
     // ----------------------------------- Post process -----------------------------------
-    auto output_tensor = output_blob.toTuple()->elements()[0].toTensor();
-    int ndim = output_tensor.ndimension();
+    auto outputTensor = outputBlob.begin()->second[0].toTuple()->elements()[0].toTensor();
+    int ndim = outputTensor.ndimension();
     size_t totalSize = 1;
-    auto sizes = output_tensor.sizes();
+    auto sizes = outputTensor.sizes();
     for (int i = 0; i < ndim; ++i) {
         if (totalSize > LLONG_MAX / sizes[i]) {
             return false;
         }
         totalSize *= sizes[i];
     }
-    auto start = output_tensor.data<int64_t>();
-    std::vector<int64_t> model_output(start, start + totalSize);
+    auto start = outputTensor.data<int64_t>();
+    std::vector<int64_t> modelOutput(start, start + totalSize);
     // -------------------------------------------------------------------------------
     
-	if (!sentenceFromIndexes(output, model_output)) {
+	if (!sentenceFromIndexes(output, modelOutput)) {
         DAWN_ERROR << "Failed to parse index to string\n";
         return false;
     }

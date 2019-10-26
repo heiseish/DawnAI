@@ -4,7 +4,8 @@
 #include <fmt/format.h>
 
 // docker should be 0.0.0.0
-DEFINE_string(address, "127.0.0.1", "IPv4 Address of the gRPC server");
+// local should be 127.0.0.1
+DEFINE_string(address, "0.0.0.0", "IPv4 Address of the gRPC server");
 DEFINE_string(port, "8080", "Port to listen");
 DEFINE_int32(neural_net, 0, "0: Image classifier, 1: Text generator, 2: TBC");
 

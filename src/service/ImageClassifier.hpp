@@ -22,7 +22,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "src/utils/Image.hpp"
-#include "src/engines/specific/TorchEngine.hpp"
+#include "src/engines/specific/InferenceEngine.hpp"
 
 #include <websocketpp/base64/base64.hpp>
 #include "src/utils/Logger.hpp"
@@ -31,7 +31,7 @@ namespace dawn {
 class ImageClassifier {
 private:
 	std::vector<std::string> labels;
-	std::unique_ptr<TorchEngine> model ;
+	std::unique_ptr<InferenceEngine<c10::IValue, c10::IValue>> model ;
 	bool forward(std::vector<cv::Mat>, std::vector<float>&) const;
 	std::tuple<std::string, std::string> postprocess(const std::vector<float>,
 		const std::vector<std::string>&) const;

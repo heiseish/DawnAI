@@ -11,10 +11,11 @@
 
 namespace dawn {
 
+template <typename T>
+using InferenceInput = std::unordered_map<std::string, std::vector<T>>;
 
-using InferenceInput = std::unordered_map<std::string, std::vector<float>>;
-
-using InferenceOutput = std::unordered_map<std::string, std::vector<float>>;
+template <typename T>
+using InferenceOutput = std::unordered_map<std::string, std::vector<T>>;
 
 using InferenceResource = std::unordered_map<std::string, boost::any>;
 
